@@ -33,4 +33,5 @@ showModalBottomSheet(
 });
 ```
 处理后的效果图
-![效果图](/images/Flutter/hiddenByKeyBoard.jpg)
+
+<img src="/images/Flutter/hiddenByKeyBoard.jpg" width=50% height=50% align=center/>
