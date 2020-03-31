@@ -1,7 +1,10 @@
 ---
 title: '使用flutter_launcher_icons插件快速替换Flutter项目启动图标'
 date: 2020-03-31 09:56:11
+categories: 
+  - 前端-Flutter
 tags:
+  - 工具使用
 ---
 
 插件地址:
