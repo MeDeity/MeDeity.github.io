@@ -15,7 +15,7 @@
 <meta property="og:description" content="一. 函数调用传参问题 123456789101112131415161718192021222324252627282930&lt;template&gt;  &lt;!--无参函数调用--&gt;  &lt;div @click&#x3D;&quot;methodWithOutParams&quot; &#x2F;&gt;  &lt;!--函数调用带括号--&gt;  &lt;div @cli">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-13T06:46:03.303Z">
-<meta property="article:modified_time" content="2020-10-13T07:07:25.586Z">
+<meta property="article:modified_time" content="2020-10-13T07:23:16.313Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -94,7 +94,7 @@
 <ol>
 <li>vue的@click事件在进行函数调用时,传递的是函数的地址(指针),所以不带括号.</li>
 <li>如果带括号表示直接执行该函数并将执行后的返回值绑定到@click事件上(这种情况下返回值应该也是函数才行) - methodReturnFunc</li>
-<li>如果函数携带参数</li>
+<li>如果函数携带参数,除了可以通过2的方式进行调用,还可以通过箭头函数的方式进行包装调用</li>
 </ol>
 <p>二、箭头函数的语法</p>
 <ol>
