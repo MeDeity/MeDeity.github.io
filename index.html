@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-JavaScript 函数调用传参问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-10-13T06:46:03.303Z" itemprop="datePublished">2020-10-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一. 函数调用传参问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!--无参函数调用--&gt;</span><br><span class="line">  &lt;div @click&#x3D;&quot;methodWithOutParams&quot; &#x2F;&gt;</span><br><span class="line">  &lt;!--函数调用带括号--&gt;</span><br><span class="line">  &lt;div @click&#x3D;&quot;methodReturnFunc()&quot; &#x2F;&gt;</span><br><span class="line">  &lt;!--有参函数调用--&gt;</span><br><span class="line">  &lt;div @click&#x3D;&quot;()&#x3D;&gt;&#123;methodWithParams(yourParams)&#125;&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Dialog&#39;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    methodWithOutParams() &#123;</span><br><span class="line">      console.info(&#39;无参数的方法被调用&#39;)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;&#x2F;函数执行后仍返回函数对象</span><br><span class="line">    methodReturnFunc()&#123;</span><br><span class="line">        &#x2F;&#x2F;do something</span><br><span class="line">        return methodWithParams(&quot;methodReturnFunc&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    methodWithParams(val) &#123;</span><br><span class="line">      console.info(&#39;含参数的方法被调用&#39; + val)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>vue的@click事件在进行函数调用时,传递的是函数的地址(指针),所以不带括号.</li>
+<li>如果带括号表示直接执行该函数并将执行后的返回值绑定到@click事件上(这种情况下返回值应该也是函数才行) - methodReturnFunc</li>
+<li>如果函数携带参数</li>
+</ol>
+<p>二、箭头函数的语法</p>
+<ol>
+<li>没有参数的函数应该写成一对圆括号</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">() &#x3D;&gt; &#123; statements &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>当只有一个参数时，圆括号是可选的</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(singleParam) &#x3D;&gt; &#123; statements &#125;</span><br><span class="line">singleParam &#x3D;&gt; &#123; statements &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>如果只有一条语句,可以省略大括号;同样如果只有一条语句 会自动添加return</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(param1, param2, …, paramN) &#x3D;&gt; &#123; statements &#125;</span><br><span class="line">(param1, param2, …, paramN) &#x3D;&gt; expression</span><br><span class="line">&#x2F;&#x2F;相当于：(param1, param2, …, paramN) &#x3D;&gt;&#123; return expression; &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/" data-id="ckg7mub9q0000ooymehlng112" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Vue前端工具使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-10-08T09:16:46.779Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
+<li>快捷键ctrl+shift+p 打开全局搜索框</li>
+<li>输入settings,找到settings(JSON)并点击<br><img src="../../source/images/tools/eslint/eslint-20201008172033.png" alt="配置截图"></li>
+<li>添加以下配置信息</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ESLint 自定义配置信息</span></span><br><span class="line">"eslint.alwaysShowStatus": true,</span><br><span class="line">"eslint.quiet": true,</span><br><span class="line">"editor.codeActionsOnSave": &#123;</span><br><span class="line">    "source.fixAll": true,</span><br><span class="line">    "source.fixAll.eslint": true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此,eslint在保存的时候会自动修复不符合规范的代码.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" data-id="ckg7mubb0000eooym4q6c5z9f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-博主" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.921Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://blog.csdn.net/zhaojianting/article/details/103502634" target="_blank" rel="noopener">阿童木-atom </a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/%E5%8D%9A%E4%B8%BB/" data-id="ckg7mubcf0010ooymag56fhbb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-区块链概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.920Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="联盟链存储策略"><a href="#联盟链存储策略" class="headerlink" title="联盟链存储策略"></a>联盟链存储策略</h4><p><a href="https://www.zhihu.com/question/287216300" target="_blank" rel="noopener">如何将图片存入区块链？</a></p>
+<blockquote>
+<p>一个区块链才多大呀？1MB </p>
+</blockquote>
+<p><a href="https://help.aliyun.com/document_detail/119875.html?spm=a2c4g.11186623.6.557.572149e0MFtvax" target="_blank" rel="noopener">试用合约体验链</a></p>
+<blockquote>
+<p>如何快速试用但是没有成功</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/" data-id="ckg7mubcd000xooym5hbne8tw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用TypeScript开发NodeJs后端项目" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.918Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>暂无</p>
+<h5 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h5><p>开发环境准备</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 添加typescript支持,这里推荐全局安装</span><br><span class="line">npm install -g typescript (全局安装)/ npm install typescript -d(局部安装)</span><br><span class="line"># 自动监视node项目的改动,并自动重启环境(ctrl+s 也可以触发重启),非常适用于开发调试阶段</span><br><span class="line">npm install -g nodemon /npm install nodemon -d </span><br><span class="line"># 线上部署监控解决方案 (相似功能 forever) -一般用于生产环境</span><br><span class="line">npm install -g pm2 /npm install pm2</span><br><span class="line"># 线下监控解决方案 -一般用于开发调试阶段</span><br><span class="line">npm install -g supervisor /npm install supervisor -d </span><br><span class="line"># node不能直接运行ts代码，需要使用tsc将ts代码编译成js代码,解决方案: ts-node则包装了node，它可以直接的运行ts代码</span><br><span class="line">npm install ts-node -d</span><br><span class="line"># 可以说是typescript版的nodemon了,可以使用在开发阶段</span><br><span class="line">npm install ts-node-dev -d</span><br></pre></td></tr></table></figure>
+<h5 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h5><ol>
+<li>这里我们创建一个 node-typescript-demo 项目作为演示,执行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+命令生成package.json文件</li>
+</ol>
+<h5 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h5><p>|– project-name          # 项目名称<br>    |– assets            # 存放项目的图片、视频等资源文件<br>    |– bin               # CLI命令入口，require(‘../dist/cli’)，注意文件头加上#!/usr/bin/env node<br>    |– dist              # 项目使用ts开发，dist为编译后文件目录，注意package.json中main字段要指向dist目录<br>    |– docs              # 存放项目相关文档<br>    |– scripts           # 对应package.json中scripts字段需要执行的脚本文件<br>    |– src               # 源码目录，注意此目录只放ts文件，其他文件如json、模板等文件放templates目录<br>        |– sub etc       # 众多子目录<br>        |– cli.ts        # cli入口文件<br>        |– index.ts      # api入口文件<br>    |– templates         # 存放json、模板等文件<br>    |– tests             # 测试文件目录<br>    |– typings           # 存放ts声明文件，主要用于补充第三方包没有ts声明的情况<br>    |– .eslintignore     # eslint忽略规则配置<br>    |– .eslintrc.js      # eslint规则配置<br>    |– .gitignore        # git忽略规则<br>    |– package.json      #<br>    |– README.md         # 项目说明<br>    |– tsconfig.json     # typescript配置，请勿修改</p>
+<blockquote>
+<p>该项目结构出处<a href="https://juejin.im/post/5de4867f51882573135415dd" target="_blank" rel="noopener">Node.js项目TypeScript改造指南</a></p>
+</blockquote>
+<h5 id="开发过程中的调试"><a href="#开发过程中的调试" class="headerlink" title="开发过程中的调试"></a>开发过程中的调试</h5><h5 id="应用Docker部署"><a href="#应用Docker部署" class="headerlink" title="应用Docker部署"></a>应用Docker部署</h5><p><a href="https://juejin.im/post/5de4867f51882573135415dd" target="_blank" rel="noopener">Node.js项目TypeScript改造指南</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/" data-id="ckg7mubcg0011ooym3sv112ea" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用Docker-Compose部署Nexus搭建maven私服" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%E4%BD%BF%E7%94%A8Docker-Compose%E9%83%A8%E7%BD%B2Nexus%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.918Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%E4%BD%BF%E7%94%A8Docker-Compose%E9%83%A8%E7%BD%B2Nexus%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/">使用Docker-Compose部署Nexus搭建maven私服</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一、Nexus安装"><a href="#一、Nexus安装" class="headerlink" title="一、Nexus安装"></a>一、Nexus安装</h4><p>目前测试使用的搭建环境为CentOS7,请确保环境安装了docker-compose,使用的docker-compose脚本如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;3&#39;</span><br><span class="line">services:</span><br><span class="line">  nexus3:</span><br><span class="line">    image: sonatype&#x2F;nexus3</span><br><span class="line">    container_name: nexus3</span><br><span class="line">    volumes:</span><br><span class="line">      - &#39;.&#x2F;nexus-data:&#x2F;nexus-data:rw&#39;</span><br><span class="line">    ports:</span><br><span class="line">      - &#39;8081:8081&#39;</span><br><span class="line">    logging:</span><br><span class="line">      driver: &quot;json-file&quot;</span><br><span class="line">      options:</span><br><span class="line">        max-size: &quot;10m&quot;</span><br><span class="line">        max-file: &quot;10&quot;</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+<p>部署成功后，使用<a href="http://ip:8081进行访问,初始密码为">http://ip:8081进行访问,初始密码为</a> admin/admin123</p>
+<h4 id="二、maven项目如何指定使用私有仓库进行下载依赖库"><a href="#二、maven项目如何指定使用私有仓库进行下载依赖库" class="headerlink" title="二、maven项目如何指定使用私有仓库进行下载依赖库"></a>二、maven项目如何指定使用私有仓库进行下载依赖库</h4><p>以下方式可以二选一:</p>
+<ol>
+<li>在项目的pom.xml文件中添加repository配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--在项目中指定使用私有仓库--&gt;</span><br><span class="line">&lt;repositories&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;nexus-private&lt;&#x2F;id&gt;</span><br><span class="line">        &lt;name&gt;nexus-private&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;url&gt;http:&#x2F;&#x2F;IP:8081&#x2F;repository&#x2F;maven-public&#x2F;&lt;&#x2F;url&gt;</span><br><span class="line">    &lt;&#x2F;repository&gt;</span><br><span class="line">&lt;&#x2F;repositories&gt;</span><br></pre></td></tr></table></figure></li>
+<li>在~/.m2/settings中指定mirror<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirrors&gt;</span><br><span class="line">    &lt;!--其他镜像配置--&gt;</span><br><span class="line">    .....</span><br><span class="line">    </span><br><span class="line">    &lt;!--使用自己的私有镜像--&gt;</span><br><span class="line">    &lt;mirror&gt;</span><br><span class="line">        &lt;id&gt;nexus-private&lt;&#x2F;id&gt;</span><br><span class="line">        &lt;name&gt;nexus-private&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;url&gt;http:&#x2F;&#x2F;IP:8081&#x2F;repository&#x2F;maven-public&#x2F;&lt;&#x2F;url&gt;</span><br><span class="line">        &lt;mirrorOf&gt;*&lt;&#x2F;mirrorOf&gt;</span><br><span class="line">    &lt;&#x2F;mirror&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;mirrors&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="三、发布自己的依赖库到私有仓库"><a href="#三、发布自己的依赖库到私有仓库" class="headerlink" title="三、发布自己的依赖库到私有仓库"></a>三、发布自己的依赖库到私有仓库</h4><p>在~/.m2/settings中增加server节点,根据需要可以添加多个server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;servers&gt;</span><br><span class="line">    &lt;server&gt;</span><br><span class="line">      &lt;id&gt;nexus-private&lt;&#x2F;id&gt;</span><br><span class="line">      &lt;username&gt;admin&lt;&#x2F;username&gt;</span><br><span class="line">      &lt;password&gt;admin123&lt;&#x2F;password&gt;</span><br><span class="line">    &lt;&#x2F;server&gt;</span><br><span class="line">  &lt;&#x2F;servers&gt;</span><br></pre></td></tr></table></figure>
+<p>在项目的pom.xml 的build节点中配置maven-deploy-plugin插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--发布到私有仓库依赖的插件--&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-deploy-plugin&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.8.1&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">        &lt;!--如果在多模块项目中，可以将不需要发布的项目配置为skip&#x3D;true--&gt;</span><br><span class="line">        &lt;skip&gt;false&lt;&#x2F;skip&gt;</span><br><span class="line">    &lt;&#x2F;configuration&gt;</span><br><span class="line">&lt;&#x2F;plugin&gt;</span><br></pre></td></tr></table></figure>
+<p>在项目的pom.xml中配置distributionManagement</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--发布到私有仓库的配置--&gt;</span><br><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;nexus-private&lt;&#x2F;id&gt;</span><br><span class="line">        &lt;name&gt;nexus-private-releases&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;url&gt;http:&#x2F;&#x2F;IP:8081&#x2F;repository&#x2F;maven-releases&#x2F;&lt;&#x2F;url&gt;</span><br><span class="line">    &lt;&#x2F;repository&gt;</span><br><span class="line">    &lt;snapshotRepository&gt;</span><br><span class="line">        &lt;id&gt;nexus-private&lt;&#x2F;id&gt;</span><br><span class="line">        &lt;name&gt;nexus-private-snapshots&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;url&gt;http:&#x2F;&#x2F;IP:8081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;</span><br><span class="line">        &lt;uniqueVersion&gt;false&lt;&#x2F;uniqueVersion&gt;</span><br><span class="line">        &lt;layout&gt;legacy&lt;&#x2F;layout&gt;</span><br><span class="line">    &lt;&#x2F;snapshotRepository&gt;</span><br><span class="line">&lt;&#x2F;distributionManagement&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中repository.id指~/.m2/settings.xml中配置的server.id, 这两个是同一个概念，值要一致</p>
+</blockquote>
+<p>运行pom.xml所在目录 运行发布命令</p>
+<p> <del>mvn clean deploy -Dmaven.test.skip=true</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn jar:jar deploy:deploy</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>经试验使用<code>mvn jar:jar deploy:deploy</code>上传jar包成功, <del>mvn clean deploy -Dmaven.test.skip=true</del>上传失败了,<strong>目前尚不知道原因所在</strong></p>
+</blockquote>
+<p>参考链接:<br><a href="https://www.cnblogs.com/fuhongwei041/p/7419450.html" target="_blank" rel="noopener">Maven私有仓库-使用docker部署Nexus</a></p>
+<p>关于swap交换区的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#进入一个文件夹</span><br><span class="line">cd &#x2F;var</span><br><span class="line">#（创建4GB的swap ,一般是内存的两倍）</span><br><span class="line">dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;swapfile bs&#x3D;1024 count&#x3D;4096000</span><br><span class="line"># 创建swap文件</span><br><span class="line">&#x2F;sbin&#x2F;mkswap swapfile</span><br><span class="line"># 激活swap文件</span><br><span class="line">&#x2F;sbin&#x2F;swapon swapfile</span><br><span class="line"># 检查swap是否正确</span><br><span class="line">&#x2F;sbin&#x2F;swapon -s </span><br><span class="line"># 加到fstab文件中让系统引导时自动启动</span><br><span class="line">vim  &#x2F;etc&#x2F;fstab</span><br></pre></td></tr></table></figure>
+<p>在末尾增加以下内容：</p>
+<blockquote>
+<p>/var/swapfile swap swap defaults 0 0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br><span class="line">free -m</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://stackoverflow.com/questions/6308162/maven-the-packaging-for-this-project-did-not-assign-a-file-to-the-build-artifac" target="_blank" rel="noopener">上传到私有仓库</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/%E4%BD%BF%E7%94%A8Docker-Compose%E9%83%A8%E7%BD%B2Nexus%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/" data-id="ckg7mubcv001hooym82w54mqu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker在NodeJs项目中的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/docker%E5%9C%A8NodeJs%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.916Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/docker%E5%9C%A8NodeJs%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">docker在NodeJs项目中的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考链接:</p>
+<ol>
+<li><a href="https://juejin.im/post/5d0737a86fb9a07f087095f2" target="_blank" rel="noopener">使用 Docker 部署 NodeJS + MongoDB 项目</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">Dockerfile reference</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/docker%E5%9C%A8NodeJs%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckg7mubb1000fooym0klxgvmk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/hello-world/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.916Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/hello-world/" data-id="ckg7mubb6000looym4mmzfm1s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-[JavaWeb]LocalDateTime类型的字段处理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%5BJavaWeb%5DLocalDateTime%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.915Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%5BJavaWeb%5DLocalDateTime%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/">LocalDateTime 类型的字段处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>以下处理方案借助jackson依赖库</p>
+<h5 id="返回值格式化"><a href="#返回值格式化" class="headerlink" title="返回值格式化"></a>返回值格式化</h5><p>未格式化的 LocalDateTime 类型的字段 在返回给前端时,显示如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;handleTime&quot;: &quot;2020-06-03T11:10:50&quot;,</span><br></pre></td></tr></table></figure>
+<p>这并不是我们需要看到的数据格式,一般情况下我们希望时间格式是这样的：”yyyy-MM-dd HH:mm:ss”，</p>
+<h5 id="返回值格式化问题解决方案"><a href="#返回值格式化问题解决方案" class="headerlink" title="返回值格式化问题解决方案"></a>返回值格式化问题解决方案</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.JsonFormat;</span><br><span class="line"></span><br><span class="line"><span class="meta">@JsonFormat</span>( pattern = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>)</span><br><span class="line"><span class="keyword">private</span> LocalDateTime handleTime;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="前端传递LocalDateTime报错问题"><a href="#前端传递LocalDateTime报错问题" class="headerlink" title="前端传递LocalDateTime报错问题"></a>前端传递LocalDateTime报错问题</h5><p>LocalDateTime 类型的字段 前端在请求时发送类似 “yyyy-MM-dd HH:mm:ss”这样的字符串时,会提示类似错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Failed to convert property value of type &#39;java.lang.String&#39; to required type &#39;java.time.LocalDateTime&#39; fr property &#39;handleTime&#39;; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [java.lang.String] to type [@com.fasterxml.jackson.annotation.JsonFormat java.time.LocalDateTime] for value &#39;2020-06-03 11:10:50&#39;; nested exception is java.lang.IllegalArgumentException: Parse attempt failed for value [2020-06-03 11:10:50]&quot;,</span><br></pre></td></tr></table></figure>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.在application.yml配置文件中加入jackson对时间格式化的配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br></pre></td></tr></table></figure>
+<p>在实体类的LocalDateTime属性上加入注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.format.annotation.DateTimeFormat;</span><br><span class="line"></span><br><span class="line"><span class="meta">@DateTimeFormat</span>(pattern = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>)</span><br><span class="line"><span class="keyword">private</span> LocalDateTime handleTime;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/[JavaWeb]LocalDateTime%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/" data-id="ckg7mubax000aooym7ibza3j4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-[Java]快速集成RabbitMQ" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%5BJava%5D%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90RabbitMQ/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.915Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/%5BJava%5D%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90RabbitMQ/">[Java]快速集成RabbitMQ</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>pom.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--RabbitMQ依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>配置信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.liyisoft.licenseprocess.mq;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.core.*;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同步任务</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyncDataMqConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务的队列名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> String QUEUE_SYNC = <span class="string">"queue.sync"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务的交换机名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String EXCHANGE_QUEUE_SYNC = <span class="string">"exchange_queue_sync"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务 成功交换机</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String EXCHANGE_TOPIC_SYNC_SUCCESS = <span class="string">"exchange_topic_sync_success"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务 失败交换机</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String EXCHANGE_TOPIC_SYNC_FAIL = <span class="string">"exchange_topic_sync_fail"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 交换机与队列绑定的RoutingKey</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ROUTING_SYNC = <span class="string">"*.sync"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务队列</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(QUEUE_SYNC)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Queue <span class="title">queueSync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//true 是否持久</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Queue(QUEUE_SYNC, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 声明同步任务交换机</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(EXCHANGE_QUEUE_SYNC)</span><br><span class="line">    <span class="function">DirectExchange <span class="title">exchangeQueueSync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DirectExchange(EXCHANGE_QUEUE_SYNC);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 声明同步任务成功交换机</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(EXCHANGE_TOPIC_SYNC_SUCCESS)</span><br><span class="line">    <span class="function">DirectExchange <span class="title">exchangeTopicSyncSuccess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DirectExchange(EXCHANGE_TOPIC_SYNC_SUCCESS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 声明同步任务失败交换机</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(EXCHANGE_TOPIC_SYNC_FAIL)</span><br><span class="line">    <span class="function">DirectExchange <span class="title">exchangeTopicSyncFail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DirectExchange(EXCHANGE_TOPIC_SYNC_FAIL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同步任务队列和同步任务交换机绑定</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> queue 同步任务队列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> exchange 同步任务交换机</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function">Binding <span class="title">syncBindingQueue</span><span class="params">(@Qualifier(QUEUE_SYNC)</span> Queue queue, @<span class="title">Qualifier</span><span class="params">(EXCHANGE_QUEUE_SYNC)</span> Exchange exchange) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> BindingBuilder.bind(queue).to(exchange).with(ROUTING_SYNC).noargs();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>消费者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package com.liyisoft.licenseprocess.mq;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;</span><br><span class="line">import com.liyisoft.licenseprocess.constant.HandleStatus;</span><br><span class="line">import com.liyisoft.licenseprocess.entity.GatherCollectObjectInfo;</span><br><span class="line">import com.liyisoft.licenseprocess.entity.LicenseMessage;</span><br><span class="line">import com.liyisoft.licenseprocess.service.IGatherCollectObjectInfoService;</span><br><span class="line">import com.liyisoft.licenseprocess.util.spider.TaskGetInfoDetail;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</span><br><span class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 同步数据任务</span><br><span class="line"> * @author fwenhua</span><br><span class="line"> *&#x2F;</span><br><span class="line">@SuppressWarnings(&quot;Duplicates&quot;)</span><br><span class="line">@Component</span><br><span class="line">@RabbitListener(queues &#x3D; SyncDataMqConfig.QUEUE_SYNC)</span><br><span class="line">@Slf4j</span><br><span class="line">public class SyncConsumer &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskGetInfoDetail taskGetInfoDetail;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 消息处理方法</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RabbitHandler</span><br><span class="line">    public void process(GatherCollectObjectInfo gatherCollectObjectInfo) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            log.info(&quot;接收到推送任务:&#123;&#125;&quot;, JSON.toJSONString(gatherCollectObjectInfo));</span><br><span class="line">            taskGetInfoDetail.spiderAutoInput(gatherCollectObjectInfo.getCitizenIdcardNum(),gatherCollectObjectInfo.getAvatarImgProcessedAddr());</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            log.info(&quot;接收到推送任务异常&quot;,e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 消息处理方法</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RabbitHandler</span><br><span class="line">    public void process(LicenseMessage licenseMessage) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            log.info(&quot;第三方推送,并爬入:&#123;&#125;&quot;, JSON.toJSONString(licenseMessage));</span><br><span class="line">            &#x2F;&#x2F;do something</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            log.info(&quot;第三方推送,并爬入异常&quot;,e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/test"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * mq消息发送处理类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上传单条信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回上传结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/uploadSingle"</span>)</span><br><span class="line">    <span class="meta">@ApiImplicitParams</span>(&#123;</span><br><span class="line">            <span class="meta">@ApiImplicitParam</span>(name = <span class="string">"citizenIdcardNum"</span>, value = <span class="string">"身份证号"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="meta">@ApiOperation</span>(value = <span class="string">"上传任务"</span>, notes = <span class="string">"上传任务"</span>,httpMethod = <span class="string">"GET"</span>)</span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;?&gt; uploadSingle(<span class="meta">@Valid</span> GatherCollectObjectInfo info) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//下发到MQ</span></span><br><span class="line">        rabbitTemplate.convertAndSend(SyncDataMqConfig.EXCHANGE_QUEUE_SYNC, SyncDataMqConfig.ROUTING_SYNC, info);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(Response.buildSuccess(gatherCollectObjectInfo,<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/[Java]%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90RabbitMQ/" data-id="ckg7mubb7000oooym43zdc6fk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

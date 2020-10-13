@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Flutter软键盘遮挡问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/Flutter%E8%BD%AF%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-03-31T10:18:11.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/31/Flutter%E8%BD%AF%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E9%97%AE%E9%A2%98/">Flutter软键盘遮挡问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Column布局中,如果存在输入框,在输入框获取焦点导致软键盘弹起时,经常会遇到控件被遮挡的问题.</p>
+<p>这里提供两种解决思路:</p>
+<ol>
+<li>resizeToAvoidBottomInset<br>通过将属性设置为true,在弹出软键盘的情况下,视图会发生重绘,以避免被软键盘遮挡.当然利用这个规则<br>,如果设置成false,则可以实现取消某些widget由于软键盘的弹出导致浮动的效果.<br>//TODO 此处应用图片以及相应的代码实现</li>
+</ol>
+<p>2.将输入框包裹在可滚动的Widget中(例如ScrollView等),当弹出软键盘时,系统会将涉及到的控件进行滚动以避免被软键盘遮挡.<br>//TODO 此处应用图片以及相应的代码实现</p>
+<p>showModalBottomSheet显示的内容中有输入框时,内容被弹出的软键盘所遮挡<br>在<a href="https://github.com/flutter/flutter/issues/18564" target="_blank" rel="noopener">Issue#18564</a>给出了详细的解决方案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">showModalBottomSheet(</span><br><span class="line">    isScrollControlled: true,</span><br><span class="line">    builder: (BuildContext context) &#123;</span><br><span class="line">    return SingleChildScrollView(</span><br><span class="line">        child:Container(</span><br><span class="line">            padding:</span><br><span class="line">            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),</span><br><span class="line">            child: AnyChild(),</span><br><span class="line">        )</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>处理后的效果图</p>
+<img src="/images/Flutter/hiddenByKeyBoard.jpg" width=50% height=50% align=center/>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/Flutter%E8%BD%AF%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E9%97%AE%E9%A2%98/" data-id="ckg7mubb4000jooym3umdb2a2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用json_serializable实现序列化和反序列化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/%E4%BD%BF%E7%94%A8json_serializable%E5%AE%9E%E7%8E%B0%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+  <time datetime="2020-03-31T10:11:11.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/31/%E4%BD%BF%E7%94%A8json_serializable%E5%AE%9E%E7%8E%B0%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">使用flutter_launcher_icons插件快速替换Flutter项目启动图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、添加必要的依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">  # Your other regular dependencies here</span><br><span class="line">  json_annotation: ^2.0.0</span><br><span class="line"></span><br><span class="line">dev_dependencies:</span><br><span class="line">  # Your other dev_dependencies here</span><br><span class="line">  build_runner: ^1.0.0</span><br><span class="line">  json_serializable: ^2.0.0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你可能需要运行flutter packages get命令手动获取依赖包</p>
+</blockquote>
+<p>示例Model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:json_annotation&#x2F;json_annotation.dart&#39;;</span><br><span class="line">&#x2F;&#x2F;运行命令后会自动生成,(className.g.dart),但需要手动引入</span><br><span class="line">part &#39;data.g.dart&#39;;</span><br><span class="line"></span><br><span class="line">@JsonSerializable()</span><br><span class="line">class Data&#123;</span><br><span class="line">  final String by;</span><br><span class="line">  final int descendants;</span><br><span class="line">  final int id;</span><br><span class="line">  final List&lt;int&gt; kids;</span><br><span class="line">  final int score;</span><br><span class="line">  final int time;</span><br><span class="line">  final String title;</span><br><span class="line">  final String type;</span><br><span class="line">  @JsonKey(nullable: false)</span><br><span class="line">  final String url;</span><br><span class="line"></span><br><span class="line">  Data(&#123;this.by, this.descendants, this.id, this.kids, this.score, this.time,</span><br><span class="line">    this.title, this.type, this.url&#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;需要手动书写</span><br><span class="line">  factory Data.fromJson(Map&lt;String, dynamic&gt; json) &#x3D;&gt; _$DataFromJson(json);</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F;需要手动书写</span><br><span class="line">  Map&lt;String, dynamic&gt; toJson() &#x3D;&gt; _$DataToJson(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用控制台执行以下代码</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter packages pub run build_runner build</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>执行以上命令后，会自动生成[className].g.dart,在该文件中定义了序列化及反序列化的方法,总体上如果不依靠插件,这样进行序列化及反序列化还是挺麻烦的.</p>
+</blockquote>
+<h4 id="使用FlutterJsonBeanFactory进行序列化及反序列化"><a href="#使用FlutterJsonBeanFactory进行序列化及反序列化" class="headerlink" title="使用FlutterJsonBeanFactory进行序列化及反序列化"></a>使用FlutterJsonBeanFactory进行序列化及反序列化</h4><p>1.在Idea上安装FlutterJsonBeanFactory插件,使用该插件可以简化序列化及反序列化的操作,详情可以查看该插件作者的博客信息<a href="https://www.jianshu.com/p/14cbcbaa74b7" target="_blank" rel="noopener">FlutterJsonBeanFactory插件json使用</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/%E4%BD%BF%E7%94%A8json_serializable%E5%AE%9E%E7%8E%B0%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckg7mubci0013ooym93hg3t4f" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-用photoshop抹去图片上的内容" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/" class="article-date">
+  <time datetime="2020-03-31T08:12:10.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/photoshop/">photoshop</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/">用photoshop抹去图片上的内容</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>快速抹除图片上的内容</p>
+<ol>
+<li>使用快捷键Ctrl+J将原图层复制</li>
+<li>使用套索工具将需要抹除的内容进行框选</li>
+<li>使用快捷键Shift+F5 调出填充对话框.点击确认.</li>
+<li>内容成功抹除</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/" data-id="ckg7mubcj0015ooymfkdl5s4g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数据库索引相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" class="article-date">
+  <time datetime="2020-03-31T08:12:10.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/">数据库索引相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="为什么要给表加上主键"><a href="#为什么要给表加上主键" class="headerlink" title="为什么要给表加上主键?"></a>为什么要给表加上主键?</h4><p>主键的作用就是把「表」的数据格式转换成「索引（平衡树）」的格式放置,表上了主键，那么表在磁盘上的存储结构就由整齐排列的结构转变成了树状结构，整个表就变成了一个索引,也就是所谓的「聚集索引」,这就是为什么一个表只能有一个主键， 一个表只能有一个「聚集索引」</p>
+<h4 id="为什么加索引后会使查询变快？"><a href="#为什么加索引后会使查询变快？" class="headerlink" title="为什么加索引后会使查询变快？"></a>为什么加索引后会使查询变快？</h4><p>在未加上索引的情况下,按照常规的逻辑，一条条去匹配的话,最坏的情况的匹配O(n)次才能得到结果,如果这个n足够大的话.这是无法接受的,这N次匹配不经过缓存优化的情况下就是n次IO开销，如果把表转换成平衡树结构，那么时间复杂度就是成指数级下降.</p>
+<h4 id="为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？"><a href="#为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？" class="headerlink" title="为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？"></a>为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？</h4><p>事物都有两面性,索引能让数据库查询数据的速度上升,而使写入数据的速度下降,原因很简单的,因为平衡树这个结构必须一直维持在一个正确的状态,增删改数据都会改变平衡树各节点中的索引数据内容,破坏树结构，因此，在每次数据改变时， DBMS必须去重新梳理树（索引）的结构以确保它的正确，这会带来不小的性能开销，也就是为什么索引会给查询以外的操作带来副作用的原因。</p>
+<h4 id="什么情况下要同时在两个字段上建索引？"><a href="#什么情况下要同时在两个字段上建索引？" class="headerlink" title="什么情况下要同时在两个字段上建索引？"></a>什么情况下要同时在两个字段上建索引？</h4><p>通过聚集索引可以查到需要查找的数据,而通过非聚集索引可以查到记录对应的主键值,再使用主键的值通过聚集索引查找到需要的数据,不管以任何方式查询表,最终都会利用主键通过聚集索引来定位到数据,聚集索引（主键）是通往真实数据所在的唯一路径.然而有一种例外可以不使用聚集索引就能查询出所需要的数据,这种非主流的方法 称之为「覆盖索引」查询,也就是平时所说的复合索引或者多字段索引查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;建立索引</span><br><span class="line">create index index_birthday on user_info(birthday);</span><br></pre></td></tr></table></figure>
+
+<p>假设我们进行以下的查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select user_name from user_info where birthday &#x3D; &#39;1991-11-1&#39;</span><br></pre></td></tr></table></figure>
+<p>这句话执行的操作如下:</p>
+<ol>
+<li>通过非聚集索引index_birthday查找birthday等于1991-11-1的所有记录的主键ID值</li>
+<li>通过得到的主键ID值执行聚集索引查找，找到主键ID值对就的真实数据（数据行）存储的位置</li>
+<li>从得到的真实数据中取得user_name字段的值返回， 也就是取得最终的结果</li>
+</ol>
+<p>我们把birthday字段上的索引改成双字段的覆盖索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index index_birthday_and_user_name on user_info(birthday, user_name);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>通过非聚集索引index_birthday_and_user_name查找birthday等于1991-11-1的叶节点的内容.</li>
+<li>由于叶节点中除了有user_name表主键ID的值以外,user_name字段的值也在里面,因此不需要通过主键ID值的查找数据行的真实所在， 直接取得叶节点中user_name的值返回即可.<br>通过这种覆盖索引直接查找的方式,可以省略不使用覆盖索引查找的后面两个步骤,大大的提高了查询性能</li>
+</ol>
+<p>以上问题答案来源于<a href="https://zhuanlan.zhihu.com/p/23624390" target="_blank" rel="noopener">【最佳实践】陈大侠-深入浅出数据库索引原理</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" data-id="ckg7mubcl0017ooym3oyoce6n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用flutter-launcher-icons插件快速替换Flutter项目启动图标" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/" class="article-date">
+  <time datetime="2020-03-31T01:56:11.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/">使用flutter_launcher_icons插件快速替换Flutter项目启动图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>插件地址:<br><a href="https://github.com/fluttercommunity/flutter_launcher_icons" target="_blank" rel="noopener">flutter_launcher_icons</a></p>
+<p>使用方法(通用版,如不能满足,请看原仓库README.MD)</p>
+<ol>
+<li>在pubspec.yaml中新增以下内容:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dev_dependencies: </span><br><span class="line">  flutter_launcher_icons: &quot;^0.7.2&quot;</span><br><span class="line">  </span><br><span class="line">flutter_icons:</span><br><span class="line">  android: true</span><br><span class="line">  ios: true</span><br><span class="line">  image_path: &quot;assets&#x2F;icon&#x2F;icon.png&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="android-ios配置项有以下属性"><a href="#android-ios配置项有以下属性" class="headerlink" title="android/ios配置项有以下属性"></a>android/ios配置项有以下属性</h4></li>
+<li>true 替换特定平台(android/ios)的启动图标</li>
+<li>false 本次忽略特定平台(android/ios)的启动图标的生成</li>
+<li>icon/path/here.png 为特定平台生成指定命名的图标,而不移除原平台的启动图标</li>
+</ol>
+<h4 id="image-path"><a href="#image-path" class="headerlink" title="image_path"></a>image_path</h4><p>你想用来作为启动图标的的资源文件路径(例如:assets/images/…)</p>
+<h4 id="image-path-android-可选"><a href="#image-path-android-可选" class="headerlink" title="image_path_android(可选)"></a>image_path_android(可选)</h4><p>单独为android平台指定启动图标的资源文件路径,可选配置，如果没有，则默认使用image_path的设置</p>
+<h4 id="image-path-ios-可选"><a href="#image-path-ios-可选" class="headerlink" title="image_path_ios(可选)"></a>image_path_ios(可选)</h4><p>单独为ios平台指定启动图标的资源文件路径,可选配置，如果没有，则默认使用image_path的设置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/" data-id="ckg7mubbv000vooym8wiw7yyy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

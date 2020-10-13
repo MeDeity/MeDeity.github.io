@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数据库索引相关 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么要给表加上主键?主键的作用就是把「表」的数据格式转换成「索引（平衡树）」的格式放置,表上了主键，那么表在磁盘上的存储结构就由整齐排列的结构转变成了树状结构，整个表就变成了一个索引,也就是所谓的「聚集索引」,这就是为什么一个表只能有一个主键， 一个表只能有一个「聚集索引」 为什么加索引后会使查询变快？在未加上索引的情况下,按照常规的逻辑，一条条去匹配的话,最坏的情况的匹配O(n)次才能得到结果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库索引相关">
+<meta property="og:url" content="http://yoursite.com/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="为什么要给表加上主键?主键的作用就是把「表」的数据格式转换成「索引（平衡树）」的格式放置,表上了主键，那么表在磁盘上的存储结构就由整齐排列的结构转变成了树状结构，整个表就变成了一个索引,也就是所谓的「聚集索引」,这就是为什么一个表只能有一个主键， 一个表只能有一个「聚集索引」 为什么加索引后会使查询变快？在未加上索引的情况下,按照常规的逻辑，一条条去匹配的话,最坏的情况的匹配O(n)次才能得到结果">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-31T08:12:10.000Z">
+<meta property="article:modified_time" content="2020-10-08T08:55:36.921Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数据库索引相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" class="article-date">
+  <time datetime="2020-03-31T08:12:10.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库索引相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="为什么要给表加上主键"><a href="#为什么要给表加上主键" class="headerlink" title="为什么要给表加上主键?"></a>为什么要给表加上主键?</h4><p>主键的作用就是把「表」的数据格式转换成「索引（平衡树）」的格式放置,表上了主键，那么表在磁盘上的存储结构就由整齐排列的结构转变成了树状结构，整个表就变成了一个索引,也就是所谓的「聚集索引」,这就是为什么一个表只能有一个主键， 一个表只能有一个「聚集索引」</p>
+<h4 id="为什么加索引后会使查询变快？"><a href="#为什么加索引后会使查询变快？" class="headerlink" title="为什么加索引后会使查询变快？"></a>为什么加索引后会使查询变快？</h4><p>在未加上索引的情况下,按照常规的逻辑，一条条去匹配的话,最坏的情况的匹配O(n)次才能得到结果,如果这个n足够大的话.这是无法接受的,这N次匹配不经过缓存优化的情况下就是n次IO开销，如果把表转换成平衡树结构，那么时间复杂度就是成指数级下降.</p>
+<h4 id="为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？"><a href="#为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？" class="headerlink" title="为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？"></a>为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？</h4><p>事物都有两面性,索引能让数据库查询数据的速度上升,而使写入数据的速度下降,原因很简单的,因为平衡树这个结构必须一直维持在一个正确的状态,增删改数据都会改变平衡树各节点中的索引数据内容,破坏树结构，因此，在每次数据改变时， DBMS必须去重新梳理树（索引）的结构以确保它的正确，这会带来不小的性能开销，也就是为什么索引会给查询以外的操作带来副作用的原因。</p>
+<h4 id="什么情况下要同时在两个字段上建索引？"><a href="#什么情况下要同时在两个字段上建索引？" class="headerlink" title="什么情况下要同时在两个字段上建索引？"></a>什么情况下要同时在两个字段上建索引？</h4><p>通过聚集索引可以查到需要查找的数据,而通过非聚集索引可以查到记录对应的主键值,再使用主键的值通过聚集索引查找到需要的数据,不管以任何方式查询表,最终都会利用主键通过聚集索引来定位到数据,聚集索引（主键）是通往真实数据所在的唯一路径.然而有一种例外可以不使用聚集索引就能查询出所需要的数据,这种非主流的方法 称之为「覆盖索引」查询,也就是平时所说的复合索引或者多字段索引查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;建立索引</span><br><span class="line">create index index_birthday on user_info(birthday);</span><br></pre></td></tr></table></figure>
+
+<p>假设我们进行以下的查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select user_name from user_info where birthday &#x3D; &#39;1991-11-1&#39;</span><br></pre></td></tr></table></figure>
+<p>这句话执行的操作如下:</p>
+<ol>
+<li>通过非聚集索引index_birthday查找birthday等于1991-11-1的所有记录的主键ID值</li>
+<li>通过得到的主键ID值执行聚集索引查找，找到主键ID值对就的真实数据（数据行）存储的位置</li>
+<li>从得到的真实数据中取得user_name字段的值返回， 也就是取得最终的结果</li>
+</ol>
+<p>我们把birthday字段上的索引改成双字段的覆盖索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index index_birthday_and_user_name on user_info(birthday, user_name);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>通过非聚集索引index_birthday_and_user_name查找birthday等于1991-11-1的叶节点的内容.</li>
+<li>由于叶节点中除了有user_name表主键ID的值以外,user_name字段的值也在里面,因此不需要通过主键ID值的查找数据行的真实所在， 直接取得叶节点中user_name的值返回即可.<br>通过这种覆盖索引直接查找的方式,可以省略不使用覆盖索引查找的后面两个步骤,大大的提高了查询性能</li>
+</ol>
+<p>以上问题答案来源于<a href="https://zhuanlan.zhihu.com/p/23624390" target="_blank" rel="noopener">【最佳实践】陈大侠-深入浅出数据库索引原理</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" data-id="ckg7mubcl0017ooym3oyoce6n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          用photoshop抹去图片上的内容
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用flutter_launcher_icons插件快速替换Flutter项目启动图标</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

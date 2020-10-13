@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用TypeScript开发NodeJs后端项目 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介暂无 前期准备开发环境准备 123456789101112# 添加typescript支持,这里推荐全局安装npm install -g typescript (全局安装)&#x2F; npm install typescript -d(局部安装)# 自动监视node项目的改动,并自动重启环境(ctrl+s 也可以触发重启),非常适用于开发调试阶段npm install -g nodemon &#x2F;npm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用TypeScript开发NodeJs后端项目">
+<meta property="og:url" content="http://yoursite.com/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简介暂无 前期准备开发环境准备 123456789101112# 添加typescript支持,这里推荐全局安装npm install -g typescript (全局安装)&#x2F; npm install typescript -d(局部安装)# 自动监视node项目的改动,并自动重启环境(ctrl+s 也可以触发重启),非常适用于开发调试阶段npm install -g nodemon &#x2F;npm">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-08T08:55:36.918Z">
+<meta property="article:modified_time" content="2020-10-08T08:55:36.919Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用TypeScript开发NodeJs后端项目" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.918Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用TypeScript开发NodeJs后端项目
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>暂无</p>
+<h5 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h5><p>开发环境准备</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 添加typescript支持,这里推荐全局安装</span><br><span class="line">npm install -g typescript (全局安装)/ npm install typescript -d(局部安装)</span><br><span class="line"># 自动监视node项目的改动,并自动重启环境(ctrl+s 也可以触发重启),非常适用于开发调试阶段</span><br><span class="line">npm install -g nodemon /npm install nodemon -d </span><br><span class="line"># 线上部署监控解决方案 (相似功能 forever) -一般用于生产环境</span><br><span class="line">npm install -g pm2 /npm install pm2</span><br><span class="line"># 线下监控解决方案 -一般用于开发调试阶段</span><br><span class="line">npm install -g supervisor /npm install supervisor -d </span><br><span class="line"># node不能直接运行ts代码，需要使用tsc将ts代码编译成js代码,解决方案: ts-node则包装了node，它可以直接的运行ts代码</span><br><span class="line">npm install ts-node -d</span><br><span class="line"># 可以说是typescript版的nodemon了,可以使用在开发阶段</span><br><span class="line">npm install ts-node-dev -d</span><br></pre></td></tr></table></figure>
+<h5 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h5><ol>
+<li>这里我们创建一个 node-typescript-demo 项目作为演示,执行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+命令生成package.json文件</li>
+</ol>
+<h5 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h5><p>|– project-name          # 项目名称<br>    |– assets            # 存放项目的图片、视频等资源文件<br>    |– bin               # CLI命令入口，require(‘../dist/cli’)，注意文件头加上#!/usr/bin/env node<br>    |– dist              # 项目使用ts开发，dist为编译后文件目录，注意package.json中main字段要指向dist目录<br>    |– docs              # 存放项目相关文档<br>    |– scripts           # 对应package.json中scripts字段需要执行的脚本文件<br>    |– src               # 源码目录，注意此目录只放ts文件，其他文件如json、模板等文件放templates目录<br>        |– sub etc       # 众多子目录<br>        |– cli.ts        # cli入口文件<br>        |– index.ts      # api入口文件<br>    |– templates         # 存放json、模板等文件<br>    |– tests             # 测试文件目录<br>    |– typings           # 存放ts声明文件，主要用于补充第三方包没有ts声明的情况<br>    |– .eslintignore     # eslint忽略规则配置<br>    |– .eslintrc.js      # eslint规则配置<br>    |– .gitignore        # git忽略规则<br>    |– package.json      #<br>    |– README.md         # 项目说明<br>    |– tsconfig.json     # typescript配置，请勿修改</p>
+<blockquote>
+<p>该项目结构出处<a href="https://juejin.im/post/5de4867f51882573135415dd" target="_blank" rel="noopener">Node.js项目TypeScript改造指南</a></p>
+</blockquote>
+<h5 id="开发过程中的调试"><a href="#开发过程中的调试" class="headerlink" title="开发过程中的调试"></a>开发过程中的调试</h5><h5 id="应用Docker部署"><a href="#应用Docker部署" class="headerlink" title="应用Docker部署"></a>应用Docker部署</h5><p><a href="https://juejin.im/post/5de4867f51882573135415dd" target="_blank" rel="noopener">Node.js项目TypeScript改造指南</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/" data-id="ckg7mubcg0011ooym3sv112ea" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/08/%E4%BD%BF%E7%94%A8Docker-Compose%E9%83%A8%E7%BD%B2Nexus%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Docker-Compose部署Nexus搭建maven私服</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

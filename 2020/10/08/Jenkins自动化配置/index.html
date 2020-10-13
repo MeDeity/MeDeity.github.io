@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Jenkins自动化配置 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Docker安装Jenkins12345678910#拉取镜像docker pull jenkins&#x2F;jenkins:lts# 创建外部目录mkdir -p &#x2F;home&#x2F;jenkins_home# 运行容器docker run -d --name jenkins -p 8181:8080 -v &#x2F;home&#x2F;jenkins_home:&#x2F;home&#x2F;jenkins_home jenkins&#x2F;jenkin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins自动化配置">
+<meta property="og:url" content="http://yoursite.com/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Docker安装Jenkins12345678910#拉取镜像docker pull jenkins&#x2F;jenkins:lts# 创建外部目录mkdir -p &#x2F;home&#x2F;jenkins_home# 运行容器docker run -d --name jenkins -p 8181:8080 -v &#x2F;home&#x2F;jenkins_home:&#x2F;home&#x2F;jenkins_home jenkins&#x2F;jenkin">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-08T08:55:36.912Z">
+<meta property="article:modified_time" content="2020-10-08T08:55:36.912Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Jenkins自动化配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.912Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jenkins自动化配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="Docker安装Jenkins"><a href="#Docker安装Jenkins" class="headerlink" title="Docker安装Jenkins"></a>Docker安装Jenkins</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">拉取镜像</span></span><br><span class="line">docker pull jenkins/jenkins:lts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建外部目录</span></span><br><span class="line">mkdir -p /home/jenkins_home</span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行容器</span></span><br><span class="line">docker run -d --name jenkins -p 8181:8080 -v /home/jenkins_home:/home/jenkins_home jenkins/jenkins:lts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入容器内部</span></span><br><span class="line">docker exec -it jenkins /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取初始密码</span></span><br><span class="line">cat /var/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>特别注意:如果访问不了,使用的是阿里云的服务器器,请确保在安全组放行特定的端口</p>
+</blockquote>
+<h5 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h5><p>除了安装推荐的插件外,由于需要部署的是maven项目,需要另行安装<br>-Maven Integration plugin<br>由于jenkins与应用容器不在同一台服务器上,需另行安装<br>-Publish Over SSH</p>
+<h5 id="Publish-Over-SSH配置"><a href="#Publish-Over-SSH配置" class="headerlink" title="Publish Over SSH配置"></a>Publish Over SSH配置</h5><p>在系统管理/配置/Publish over SSH下新增配置</p>
+<ol>
+<li>Name: 应用服务器的名称</li>
+<li>Hostname: 主机地址</li>
+<li>Username: 登录用户名</li>
+<li>Remote Directory: 远程目录,这里我直接使用根目录【/】<br>勾选Use password authentication, or use a different key,直接使用密码登录<br>在 Passphrase / Password 处直接输入密码,然后点击Test Configuration,直至显示Success.<br>则Publish Over SSH配置配置成功</li>
+</ol>
+<h5 id="JDK配置"><a href="#JDK配置" class="headerlink" title="JDK配置"></a>JDK配置</h5><p>在系统管理/全局工具配置/JDK安装<br>如果使用的是外部的JDK,根据我们设置的volume(/home/jenkins_home),需要将JDK安装在此处,否则Jenkins会找不到,当然在/home/jenkins_home<br>处软链接JDK的位置应该也可以,具体没试验.<br>JDK别名:JDK(随你高兴)<br>JAVA_HOME: /home/jenkins_home/java/jdk1.8.0_241<br>如果你对JDK版本没有特殊要求,你也可以让jenkins自行安装</p>
+<h5 id="Maven配置"><a href="#Maven配置" class="headerlink" title="Maven配置"></a>Maven配置</h5><p>同JDK配置.尽量在volume(/home/jenkins_home)目录下,要不然会出现找不到Maven的情况.当然最省事的就是让Jenkins自行安装</p>
+<h5 id="Maven-任务"><a href="#Maven-任务" class="headerlink" title="Maven 任务"></a>Maven 任务</h5><h6 id="General选项卡"><a href="#General选项卡" class="headerlink" title="General选项卡"></a>General选项卡</h6><p>在描述中填写该构建任务的备注信息,其中特别重要的是请务必开启丢弃旧的构建,在多次构建后,很容易将服务器撑爆.一般情况下可以设置保留几天内的构建,并保留最大的构建数.</p>
+<h6 id="源码管理选项卡"><a href="#源码管理选项卡" class="headerlink" title="源码管理选项卡"></a>源码管理选项卡</h6><p>推荐使用GIT进行项目管理.添加必要的认证证书,指定构建分支(一般情况下使用*/master)</p>
+<h6 id="构建触发器选项卡"><a href="#构建触发器选项卡" class="headerlink" title="构建触发器选项卡"></a>构建触发器选项卡</h6><p>选中Build whenever a SNAPSHOT dependency is built及GitHub hook trigger for GITScm polling<br>其中GitHub hook trigger for GITScm polling是个比较有用的一个功能</p>
+<h6 id="构建环境选项卡"><a href="#构建环境选项卡" class="headerlink" title="构建环境选项卡"></a>构建环境选项卡</h6><p>勾选 Add timestamps to the Console Output 将构建时间记录现在在控制台输出中</p>
+<h6 id="Build选项卡"><a href="#Build选项卡" class="headerlink" title="Build选项卡"></a>Build选项卡</h6><p>Root POM: pom.xml<br>Goals and options: clean install -Ptest -Dmaven.test.skip=true</p>
+<blockquote>
+<p>跳过测试用例</p>
+</blockquote>
+<h6 id="Post-Steps选项卡"><a href="#Post-Steps选项卡" class="headerlink" title="Post Steps选项卡"></a>Post Steps选项卡</h6><ol>
+<li>选中 Run only if build succeeds</li>
+<li>在Add post-build step 中选中(Send files or execute commands over SSH)</li>
+<li>SSH Publishers设置</li>
+<li>Name: 此处应该有下拉选项(如果没有,说明你没有配置,请返回到 Publish Over SSH配置 进行配置) 选择应用服务器<br>Transfers Set 设置</li>
+<li>Source files: 需要上传到服务器的文件,多个文件可以使用逗号分隔</li>
+<li>Remove prefix: 删除部分前缀 例如你的源文件的目录为:target/deployment/images/**/,但是你不想创建 target/deployment 这两层目录.<br>在此处就可以配置 target/deployment,这样 在远程服务器上就只会生成 images文件夹目录.</li>
+<li>Remote directory: 文件将拷贝到哪个目录下,如果该目录不存在会自动创建</li>
+<li>Exec command: 拷贝完成后在远程服务器上执行的脚本<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;project&#x2F;license_process&#x2F;</span><br><span class="line">tar -zxvf license_process-1.0-SNAPSHOT-bin.tar.gz</span><br><span class="line">chmod -R 777 license_process-1.0-SNAPSHOT</span><br><span class="line">cd license_process-1.0-SNAPSHOT&#x2F;bin</span><br><span class="line">.&#x2F;auto.sh stop</span><br><span class="line">.&#x2F;auto.sh start</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="auto-相关的shell脚本"><a href="#auto-相关的shell脚本" class="headerlink" title="auto 相关的shell脚本"></a>auto 相关的shell脚本</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">该脚本为Linux下启动java程序的通用脚本。即可以作为开机自启动service脚本被调用，</span></span><br><span class="line"><span class="meta">#</span><span class="bash">也可以作为启动java程序的独立脚本来使用。</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">JDK所在路径</span></span><br><span class="line">JAVA_HOME="/usr/local/java/jdk1.8.0_241"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Java程序所在的目录（classes的上一级目录）</span></span><br><span class="line">APP_HOME=/home/project/projectName</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">需要启动的Java主程序（main方法类）</span></span><br><span class="line">APP_MAINCLASS=com.*.XXXApplication</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">拼凑完整的classpath参数，包括指定lib目录下所有的jar</span></span><br><span class="line">CLASSPATH=$APP_HOME/classes</span><br><span class="line">for i in "$APP_HOME"/lib/*.jar; do</span><br><span class="line">   CLASSPATH="$CLASSPATH":"$i"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">java虚拟机启动参数</span></span><br><span class="line">JAVA_OPTS="-ms512m -mx512m -Xmn128m -Djava.awt.headless=true -XX:MaxPermSize=64m"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)判断程序是否已启动</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用JDK自带的JPS命令及grep命令组合，准确查找pid</span></span><br><span class="line"><span class="meta">#</span><span class="bash">jps 加 l 参数，表示显示java的完整包路径</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用awk，分割出pid (<span class="variable">$1</span>部分)，及Java程序名称(<span class="variable">$2</span>部分)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">当jps命令不可用时,使用: ps -ef | grep <span class="variable">$APP_MAINCLASS</span> | grep -v <span class="string">"grep"</span> | awk <span class="string">'&#123;print $2&#125;'</span> 代替</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">初始化psid变量（全局）</span></span><br><span class="line">psid=0</span><br><span class="line"></span><br><span class="line">checkpid() &#123;</span><br><span class="line">   javaps=`$JAVA_HOME/bin/jps -l | grep $APP_MAINCLASS`</span><br><span class="line"><span class="meta">   #</span><span class="bash">javaps=`ps -ef | grep <span class="variable">$APP_MAINCLASS</span> | grep -v <span class="string">"grep"</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span></span><br><span class="line"></span><br><span class="line">   if [ -n "$javaps" ]; then</span><br><span class="line">      psid=`echo $javaps | awk '&#123;print $1&#125;'`</span><br><span class="line">   else</span><br><span class="line">      psid=0</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)启动程序</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则提示程序已启动</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 如果程序没有被启动，则执行启动命令行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4. 启动命令执行后，再次调用checkpid函数</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5. 如果步骤4的结果能够确认程序的pid,则打印[OK]，否则打印[Failed]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意：<span class="built_in">echo</span> -n 表示打印字符后，不换行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意: <span class="string">"nohup 某命令 &gt;/dev/null 2&gt;&amp;1 &amp;"</span> 的用法</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">start() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ]; then</span><br><span class="line">      echo "================================"</span><br><span class="line">      echo "warn: $APP_MAINCLASS already started! (pid=$psid)"</span><br><span class="line">      echo "================================"</span><br><span class="line">   else</span><br><span class="line">      echo -n "Starting $APP_MAINCLASS ..."</span><br><span class="line">      # -DlogFn=active 指的是生产日志文件名为active</span><br><span class="line">      nohup $JAVA_HOME/bin/java $JAVA_OPTS -classpath $CLASSPATH $APP_MAINCLASS &gt;/dev/null 2&gt;nohup.out &amp;</span><br><span class="line">      checkpid</span><br><span class="line">      if [ $psid -ne 0 ]; then</span><br><span class="line">         echo "(pid=$psid) [OK]"</span><br><span class="line">      else</span><br><span class="line">         echo "[Failed]"</span><br><span class="line">      fi</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)停止程序</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则开始执行停止，否则，提示程序未运行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 使用<span class="built_in">kill</span> -9 pid命令进行强制杀死进程</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4. 执行<span class="built_in">kill</span>命令行紧接其后，马上查看上一句命令的返回值: $?</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5. 如果步骤4的结果$?等于0,则打印[OK]，否则打印[Failed]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">6. 为了防止java程序被启动多次，这里增加反复检查进程，反复杀死的处理（递归调用stop）。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意：<span class="built_in">echo</span> -n 表示打印字符后，不换行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意: 在shell编程中，<span class="string">"$?"</span> 表示上一句命令或者一个函数的返回值</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">stop() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ]; then</span><br><span class="line">      echo -n "Stopping $APP_MAINCLASS ...(pid=$psid) "</span><br><span class="line">      kill -9 $psid</span><br><span class="line">      if [ $? -eq 0 ]; then</span><br><span class="line">         echo "[OK]"</span><br><span class="line">      else</span><br><span class="line">         echo "[Failed]"</span><br><span class="line">      fi</span><br><span class="line"></span><br><span class="line">      checkpid</span><br><span class="line">      if [ $psid -ne 0 ]; then</span><br><span class="line">         stop</span><br><span class="line">      fi</span><br><span class="line">   else</span><br><span class="line">      echo "================================"</span><br><span class="line">      echo "warn: $APP_MAINCLASS is not running"</span><br><span class="line">      echo "================================"</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)检查程序运行状态</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则提示正在运行并表示出pid</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 否则，提示程序未运行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">status() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ];  then</span><br><span class="line">      echo "$APP_MAINCLASS is running! (pid=$psid)"</span><br><span class="line">   else</span><br><span class="line">      echo "$APP_MAINCLASS is not running"</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)打印系统环境参数</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">info() &#123;</span><br><span class="line">   echo "System Information:"</span><br><span class="line">   echo "****************************"</span><br><span class="line">   echo `head -n 1 /etc/issue`</span><br><span class="line">   echo `uname -a`</span><br><span class="line">   echo</span><br><span class="line">   echo "JAVA_HOME=$JAVA_HOME"</span><br><span class="line">   echo `$JAVA_HOME/bin/java -version`</span><br><span class="line">   echo</span><br><span class="line">   echo "APP_HOME=$APP_HOME"</span><br><span class="line">   echo "APP_MAINCLASS=$APP_MAINCLASS"</span><br><span class="line">   echo "****************************"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">读取脚本的第一个参数(<span class="variable">$1</span>)，进行判断</span></span><br><span class="line"><span class="meta">#</span><span class="bash">参数取值范围：&#123;start|stop|restart|status|info&#125;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如参数不在指定范围之内，则打印帮助信息</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">case "$1" in</span><br><span class="line">   'start')</span><br><span class="line">      start</span><br><span class="line">      ;;</span><br><span class="line">   'stop')</span><br><span class="line">     stop</span><br><span class="line">     ;;</span><br><span class="line">   'restart')</span><br><span class="line">     stop</span><br><span class="line">     start</span><br><span class="line">     ;;</span><br><span class="line">   'status')</span><br><span class="line">     status</span><br><span class="line">     ;;</span><br><span class="line">   'info')</span><br><span class="line">     info</span><br><span class="line">     ;;</span><br><span class="line">  *)</span><br><span class="line">     echo "Usage: $0 &#123;start|stop|restart|status|info&#125;"</span><br><span class="line">     exit 1</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>至此,构建任务完成,点击开始构建应该就能正常运行</p>
+<p><a href="https://segmentfault.com/a/1190000017741598" target="_blank" rel="noopener">在CentOS 7上搭建 Jenkins + Maven + Git 持续集成环境</a><br><a href="https://segmentfault.com/a/1190000014325300" target="_blank" rel="noopener">jenkins+maven+docker+github全自动化部署SpringBoot实例</a><br><a href="https://www.cnblogs.com/EasonJim/p/6815365.html" target="_blank" rel="noopener">Maven属性（properties）标签的使用</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" data-id="ckg7mubb3000hooym9squ0zg7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/08/SpringBoot%E9%9B%86%E6%88%90Swagger2%5B%E5%AE%9E%E6%88%98%5D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SpringBoot集成Swagger2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/08/JavaWeb%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaWeb开发过程中的一些常用技巧</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
