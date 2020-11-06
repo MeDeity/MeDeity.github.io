@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>在Vue中使用svg-icon笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="svg相关目录情况1234567|-components|--|-SvgIcon|------|-index.vue #封装组件|-icons|--|-svg           #svg资源|--|-index.js      #自动导入|--|-svgo.yml      #去颜色,精简SVG  SVG组件封装-index.vue12345678910111213141516171819202">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Vue中使用svg-icon笔记">
+<meta property="og:url" content="http://yoursite.com/2020/11/06/%E5%9C%A8Vue%E4%B8%AD%E4%BD%BF%E7%94%A8svg-icon%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="svg相关目录情况1234567|-components|--|-SvgIcon|------|-index.vue #封装组件|-icons|--|-svg           #svg资源|--|-index.js      #自动导入|--|-svgo.yml      #去颜色,精简SVG  SVG组件封装-index.vue12345678910111213141516171819202">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-06T07:54:46.899Z">
+<meta property="article:modified_time" content="2020-11-06T10:41:44.449Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-在Vue中使用svg-icon笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/06/%E5%9C%A8Vue%E4%B8%AD%E4%BD%BF%E7%94%A8svg-icon%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-11-06T07:54:46.899Z" itemprop="datePublished">2020-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在Vue中使用svg-icon笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="svg相关目录情况"><a href="#svg相关目录情况" class="headerlink" title="svg相关目录情况"></a>svg相关目录情况</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">|-components</span><br><span class="line">|--|-SvgIcon</span><br><span class="line">|------|-index.vue #封装组件</span><br><span class="line">|-icons</span><br><span class="line">|--|-svg           #svg资源</span><br><span class="line">|--|-index.js      #自动导入</span><br><span class="line">|--|-svgo.yml      #去颜色,精简SVG</span><br></pre></td></tr></table></figure>
+
+<h1 id="SVG组件封装-index-vue"><a href="#SVG组件封装-index-vue" class="headerlink" title="SVG组件封装-index.vue"></a>SVG组件封装-index.vue</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div v-if&#x3D;&quot;isExternal&quot; :style&#x3D;&quot;styleExternalIcon&quot; class&#x3D;&quot;svg-external-icon svg-icon&quot; v-on&#x3D;&quot;$listeners&quot; &#x2F;&gt;</span><br><span class="line">  &lt;svg v-else :class&#x3D;&quot;svgClass&quot; aria-hidden&#x3D;&quot;true&quot; v-on&#x3D;&quot;$listeners&quot;&gt;</span><br><span class="line">    &lt;use :xlink:href&#x3D;&quot;iconName&quot; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;svg&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">&#x2F;&#x2F; doc: https:&#x2F;&#x2F;panjiachen.github.io&#x2F;vue-element-admin-site&#x2F;feature&#x2F;component&#x2F;svg-icon.html#usage</span><br><span class="line">import &#123; isExternal &#125; from &#39;@&#x2F;utils&#x2F;validate&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;SvgIcon&#39;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    iconClass: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    className: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &#39;&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    isExternal() &#123;</span><br><span class="line">      return isExternal(this.iconClass)</span><br><span class="line">    &#125;,</span><br><span class="line">    iconName() &#123;</span><br><span class="line">      return &#96;#icon-$&#123;this.iconClass&#125;&#96;</span><br><span class="line">    &#125;,</span><br><span class="line">    svgClass() &#123;</span><br><span class="line">      if (this.className) &#123;</span><br><span class="line">        return &#39;svg-icon &#39; + this.className</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return &#39;svg-icon&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    styleExternalIcon() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        mask: &#96;url($&#123;this.iconClass&#125;) no-repeat 50% 50%&#96;,</span><br><span class="line">        &#39;-webkit-mask&#39;: &#96;url($&#123;this.iconClass&#125;) no-repeat 50% 50%&#96;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.svg-icon &#123;</span><br><span class="line">  width: 1em;</span><br><span class="line">  height: 1em;</span><br><span class="line">  vertical-align: -0.15em;</span><br><span class="line">  fill: currentColor;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.svg-external-icon &#123;</span><br><span class="line">  background-color: currentColor;</span><br><span class="line">  mask-size: cover!important;</span><br><span class="line">  display: inline-block;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="自动导入-index-js"><a href="#自动导入-index-js" class="headerlink" title="自动导入 index.js"></a>自动导入 index.js</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> SvgIcon <span class="keyword">from</span> <span class="string">'@/components/SvgIcon'</span><span class="comment">// svg component</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// register globally</span></span><br><span class="line">Vue.component(<span class="string">'svg-icon'</span>, SvgIcon)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">'./svg'</span>, <span class="literal">false</span>, /\.svg$/)</span><br><span class="line"><span class="keyword">const</span> requireAll = <span class="function"><span class="params">requireContext</span> =&gt;</span> requireContext.keys().map(requireContext)</span><br><span class="line">requireAll(req)</span><br></pre></td></tr></table></figure>
+
+<p>在main.js中 引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'@/icons'</span> <span class="comment">// icon</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="使用svg-sprite-loader制作svg-sprite"><a href="#使用svg-sprite-loader制作svg-sprite" class="headerlink" title="使用svg-sprite-loader制作svg-sprite"></a>使用svg-sprite-loader制作svg-sprite</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack(config) &#123;</span><br><span class="line">    <span class="comment">// set svg-sprite-loader</span></span><br><span class="line">    config.module</span><br><span class="line">      .rule(<span class="string">'svg'</span>)</span><br><span class="line">      .exclude.add(resolve(<span class="string">'src/icons'</span>))</span><br><span class="line">      .end()</span><br><span class="line">    config.module</span><br><span class="line">      .rule(<span class="string">'icons'</span>)</span><br><span class="line">      .test(<span class="regexp">/\.svg$/</span>)</span><br><span class="line">      .include.add(resolve(<span class="string">'src/icons'</span>))</span><br><span class="line">      .end()</span><br><span class="line">      .use(<span class="string">'svg-sprite-loader'</span>)</span><br><span class="line">      .loader(<span class="string">'svg-sprite-loader'</span>)</span><br><span class="line">      .options(&#123;</span><br><span class="line">        symbolId: <span class="string">'icon-[name]'</span></span><br><span class="line">      &#125;)</span><br><span class="line">      .end()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="精简SVG"><a href="#精简SVG" class="headerlink" title="精简SVG"></a>精简SVG</h1><p>这里我们需要使用到svgo插件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># svgo.yml</span></span><br><span class="line"><span class="comment"># replace default config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># multipass: true</span></span><br><span class="line"><span class="comment"># full: true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">plugins:</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># - name</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># or:</span></span><br><span class="line">  <span class="comment"># - name: false</span></span><br><span class="line">  <span class="comment"># - name: true</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># or:</span></span><br><span class="line">  <span class="comment"># - name:</span></span><br><span class="line">  <span class="comment">#     param1: 1</span></span><br><span class="line">  <span class="comment">#     param2: 2</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">removeAttrs:</span></span><br><span class="line">    <span class="attr">attrs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'fill'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'fill-rule'</span></span><br></pre></td></tr></table></figure>
+
+<p>在package.json在增加script脚本指令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行shell命令,实现去除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run svgo</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用svg-icon"><a href="#使用svg-icon" class="headerlink" title="使用svg-icon"></a>使用svg-icon</h1><h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- icon-class 为 icon 的名字; class-name 为 icon 自定义 class--&gt;</span><br><span class="line">&lt;svg-icon icon-class&#x3D;&quot;password&quot;  class-name&#x3D;&#39;custom-class&#39; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="改变颜色"><a href="#改变颜色" class="headerlink" title="改变颜色"></a>改变颜色</h2><p>svg-icon 默认会读取其父级的 color fill: currentColor;<br>你可以改变父级的color或者直接改变fill的颜色即可。</p>
+<h2 id="使用外链"><a href="#使用外链" class="headerlink" title="使用外链"></a>使用外链</h2><p>支持使用外链的形式引入 svg。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg-icon icon-class&#x3D;&quot;https:&#x2F;&#x2F;xxxx.svg &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h2><p>如果你是从 iconfont下载的图标，记得使用如 Sketch 等工具规范一下图标的大小问题，不然可能会造成项目中的图标大小尺寸不统一的问题。<br>本项目中使用的图标都是 128*128 大小规格的。</p>
+<p><a href="https://juejin.im/post/6844903517564436493" target="_blank" rel="noopener">花裤衩大佬的-手摸手，带你优雅的使用 icon</a><br><a href="https://panjiachen.gitee.io/vue-element-admin-site/zh/feature/component/svg-icon.html" target="_blank" rel="noopener">Svg Icon 图标使用说明</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/06/%E5%9C%A8Vue%E4%B8%AD%E4%BD%BF%E7%94%A8svg-icon%E7%AC%94%E8%AE%B0/" data-id="ckh64sf8700028wymdyp5b9jl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/03/uni-app%E6%8A%80%E6%9C%AF%E6%A0%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">UNI-APP技术栈</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%88/">技术栈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uni-app/" rel="tag">uni-app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/uni-app/" style="font-size: 10px;">uni-app</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/06/%E5%9C%A8Vue%E4%B8%AD%E4%BD%BF%E7%94%A8svg-icon%E7%AC%94%E8%AE%B0/">在Vue中使用svg-icon笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/03/uni-app%E6%8A%80%E6%9C%AF%E6%A0%88/">UNI-APP技术栈</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/23/Vue%20CLI3%20%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5px2rem%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/">Vue CLI3 项目引入px2rem适配方案笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/23/ubuntu%E4%B8%8Bnginx%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">ubuntu下nginx相关操作</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/21/Shell%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Shell笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

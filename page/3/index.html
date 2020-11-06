@@ -64,6 +64,405 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-SpringBoot集成Swagger2[实战]" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/SpringBoot%E9%9B%86%E6%88%90Swagger2%5B%E5%AE%9E%E6%88%98%5D/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.913Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/SpringBoot%E9%9B%86%E6%88%90Swagger2%5B%E5%AE%9E%E6%88%98%5D/">SpringBoot集成Swagger2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在pom.xml文件中引入swagger2相关依赖包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springfox.swagger.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springfox.swagger.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span>(value = <span class="string">"authApi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .groupName(<span class="string">"默认接口"</span>)</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.example.resource"</span>))<span class="comment">//为当前包路径</span></span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span>(value = <span class="string">"patApi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestPatApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .groupName(<span class="string">"达人拍拍接口"</span>)</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.example.controller"</span>))<span class="comment">//为当前包路径</span></span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *构建api文档的详细信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                .title(<span class="string">"Spring Boot 使用 Swagger2 构建RESTful API"</span>)<span class="comment">//页面标题</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">"swagger2"</span>, <span class="string">"http://www.example.com/"</span>, <span class="string">"example@gmail.com"</span>))<span class="comment">//创建人</span></span><br><span class="line">                .version(<span class="string">"1.0"</span>)<span class="comment">//版本号</span></span><br><span class="line">                .description(<span class="string">"API 描述"</span>)<span class="comment">//描述</span></span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/SpringBoot%E9%9B%86%E6%88%90Swagger2[%E5%AE%9E%E6%88%98]/" data-id="ckg7mubaw0009ooym5xsphhyd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Jenkins自动化配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.912Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/">Jenkins自动化配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="Docker安装Jenkins"><a href="#Docker安装Jenkins" class="headerlink" title="Docker安装Jenkins"></a>Docker安装Jenkins</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">拉取镜像</span></span><br><span class="line">docker pull jenkins/jenkins:lts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建外部目录</span></span><br><span class="line">mkdir -p /home/jenkins_home</span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行容器</span></span><br><span class="line">docker run -d --name jenkins -p 8181:8080 -v /home/jenkins_home:/home/jenkins_home jenkins/jenkins:lts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入容器内部</span></span><br><span class="line">docker exec -it jenkins /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取初始密码</span></span><br><span class="line">cat /var/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>特别注意:如果访问不了,使用的是阿里云的服务器器,请确保在安全组放行特定的端口</p>
+</blockquote>
+<h5 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h5><p>除了安装推荐的插件外,由于需要部署的是maven项目,需要另行安装<br>-Maven Integration plugin<br>由于jenkins与应用容器不在同一台服务器上,需另行安装<br>-Publish Over SSH</p>
+<h5 id="Publish-Over-SSH配置"><a href="#Publish-Over-SSH配置" class="headerlink" title="Publish Over SSH配置"></a>Publish Over SSH配置</h5><p>在系统管理/配置/Publish over SSH下新增配置</p>
+<ol>
+<li>Name: 应用服务器的名称</li>
+<li>Hostname: 主机地址</li>
+<li>Username: 登录用户名</li>
+<li>Remote Directory: 远程目录,这里我直接使用根目录【/】<br>勾选Use password authentication, or use a different key,直接使用密码登录<br>在 Passphrase / Password 处直接输入密码,然后点击Test Configuration,直至显示Success.<br>则Publish Over SSH配置配置成功</li>
+</ol>
+<h5 id="JDK配置"><a href="#JDK配置" class="headerlink" title="JDK配置"></a>JDK配置</h5><p>在系统管理/全局工具配置/JDK安装<br>如果使用的是外部的JDK,根据我们设置的volume(/home/jenkins_home),需要将JDK安装在此处,否则Jenkins会找不到,当然在/home/jenkins_home<br>处软链接JDK的位置应该也可以,具体没试验.<br>JDK别名:JDK(随你高兴)<br>JAVA_HOME: /home/jenkins_home/java/jdk1.8.0_241<br>如果你对JDK版本没有特殊要求,你也可以让jenkins自行安装</p>
+<h5 id="Maven配置"><a href="#Maven配置" class="headerlink" title="Maven配置"></a>Maven配置</h5><p>同JDK配置.尽量在volume(/home/jenkins_home)目录下,要不然会出现找不到Maven的情况.当然最省事的就是让Jenkins自行安装</p>
+<h5 id="Maven-任务"><a href="#Maven-任务" class="headerlink" title="Maven 任务"></a>Maven 任务</h5><h6 id="General选项卡"><a href="#General选项卡" class="headerlink" title="General选项卡"></a>General选项卡</h6><p>在描述中填写该构建任务的备注信息,其中特别重要的是请务必开启丢弃旧的构建,在多次构建后,很容易将服务器撑爆.一般情况下可以设置保留几天内的构建,并保留最大的构建数.</p>
+<h6 id="源码管理选项卡"><a href="#源码管理选项卡" class="headerlink" title="源码管理选项卡"></a>源码管理选项卡</h6><p>推荐使用GIT进行项目管理.添加必要的认证证书,指定构建分支(一般情况下使用*/master)</p>
+<h6 id="构建触发器选项卡"><a href="#构建触发器选项卡" class="headerlink" title="构建触发器选项卡"></a>构建触发器选项卡</h6><p>选中Build whenever a SNAPSHOT dependency is built及GitHub hook trigger for GITScm polling<br>其中GitHub hook trigger for GITScm polling是个比较有用的一个功能</p>
+<h6 id="构建环境选项卡"><a href="#构建环境选项卡" class="headerlink" title="构建环境选项卡"></a>构建环境选项卡</h6><p>勾选 Add timestamps to the Console Output 将构建时间记录现在在控制台输出中</p>
+<h6 id="Build选项卡"><a href="#Build选项卡" class="headerlink" title="Build选项卡"></a>Build选项卡</h6><p>Root POM: pom.xml<br>Goals and options: clean install -Ptest -Dmaven.test.skip=true</p>
+<blockquote>
+<p>跳过测试用例</p>
+</blockquote>
+<h6 id="Post-Steps选项卡"><a href="#Post-Steps选项卡" class="headerlink" title="Post Steps选项卡"></a>Post Steps选项卡</h6><ol>
+<li>选中 Run only if build succeeds</li>
+<li>在Add post-build step 中选中(Send files or execute commands over SSH)</li>
+<li>SSH Publishers设置</li>
+<li>Name: 此处应该有下拉选项(如果没有,说明你没有配置,请返回到 Publish Over SSH配置 进行配置) 选择应用服务器<br>Transfers Set 设置</li>
+<li>Source files: 需要上传到服务器的文件,多个文件可以使用逗号分隔</li>
+<li>Remove prefix: 删除部分前缀 例如你的源文件的目录为:target/deployment/images/**/,但是你不想创建 target/deployment 这两层目录.<br>在此处就可以配置 target/deployment,这样 在远程服务器上就只会生成 images文件夹目录.</li>
+<li>Remote directory: 文件将拷贝到哪个目录下,如果该目录不存在会自动创建</li>
+<li>Exec command: 拷贝完成后在远程服务器上执行的脚本<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;project&#x2F;license_process&#x2F;</span><br><span class="line">tar -zxvf license_process-1.0-SNAPSHOT-bin.tar.gz</span><br><span class="line">chmod -R 777 license_process-1.0-SNAPSHOT</span><br><span class="line">cd license_process-1.0-SNAPSHOT&#x2F;bin</span><br><span class="line">.&#x2F;auto.sh stop</span><br><span class="line">.&#x2F;auto.sh start</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="auto-相关的shell脚本"><a href="#auto-相关的shell脚本" class="headerlink" title="auto 相关的shell脚本"></a>auto 相关的shell脚本</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">该脚本为Linux下启动java程序的通用脚本。即可以作为开机自启动service脚本被调用，</span></span><br><span class="line"><span class="meta">#</span><span class="bash">也可以作为启动java程序的独立脚本来使用。</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">JDK所在路径</span></span><br><span class="line">JAVA_HOME="/usr/local/java/jdk1.8.0_241"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Java程序所在的目录（classes的上一级目录）</span></span><br><span class="line">APP_HOME=/home/project/projectName</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">需要启动的Java主程序（main方法类）</span></span><br><span class="line">APP_MAINCLASS=com.*.XXXApplication</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">拼凑完整的classpath参数，包括指定lib目录下所有的jar</span></span><br><span class="line">CLASSPATH=$APP_HOME/classes</span><br><span class="line">for i in "$APP_HOME"/lib/*.jar; do</span><br><span class="line">   CLASSPATH="$CLASSPATH":"$i"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">java虚拟机启动参数</span></span><br><span class="line">JAVA_OPTS="-ms512m -mx512m -Xmn128m -Djava.awt.headless=true -XX:MaxPermSize=64m"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)判断程序是否已启动</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用JDK自带的JPS命令及grep命令组合，准确查找pid</span></span><br><span class="line"><span class="meta">#</span><span class="bash">jps 加 l 参数，表示显示java的完整包路径</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用awk，分割出pid (<span class="variable">$1</span>部分)，及Java程序名称(<span class="variable">$2</span>部分)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">当jps命令不可用时,使用: ps -ef | grep <span class="variable">$APP_MAINCLASS</span> | grep -v <span class="string">"grep"</span> | awk <span class="string">'&#123;print $2&#125;'</span> 代替</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">初始化psid变量（全局）</span></span><br><span class="line">psid=0</span><br><span class="line"></span><br><span class="line">checkpid() &#123;</span><br><span class="line">   javaps=`$JAVA_HOME/bin/jps -l | grep $APP_MAINCLASS`</span><br><span class="line"><span class="meta">   #</span><span class="bash">javaps=`ps -ef | grep <span class="variable">$APP_MAINCLASS</span> | grep -v <span class="string">"grep"</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span></span><br><span class="line"></span><br><span class="line">   if [ -n "$javaps" ]; then</span><br><span class="line">      psid=`echo $javaps | awk '&#123;print $1&#125;'`</span><br><span class="line">   else</span><br><span class="line">      psid=0</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)启动程序</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则提示程序已启动</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 如果程序没有被启动，则执行启动命令行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4. 启动命令执行后，再次调用checkpid函数</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5. 如果步骤4的结果能够确认程序的pid,则打印[OK]，否则打印[Failed]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意：<span class="built_in">echo</span> -n 表示打印字符后，不换行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意: <span class="string">"nohup 某命令 &gt;/dev/null 2&gt;&amp;1 &amp;"</span> 的用法</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">start() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ]; then</span><br><span class="line">      echo "================================"</span><br><span class="line">      echo "warn: $APP_MAINCLASS already started! (pid=$psid)"</span><br><span class="line">      echo "================================"</span><br><span class="line">   else</span><br><span class="line">      echo -n "Starting $APP_MAINCLASS ..."</span><br><span class="line">      # -DlogFn=active 指的是生产日志文件名为active</span><br><span class="line">      nohup $JAVA_HOME/bin/java $JAVA_OPTS -classpath $CLASSPATH $APP_MAINCLASS &gt;/dev/null 2&gt;nohup.out &amp;</span><br><span class="line">      checkpid</span><br><span class="line">      if [ $psid -ne 0 ]; then</span><br><span class="line">         echo "(pid=$psid) [OK]"</span><br><span class="line">      else</span><br><span class="line">         echo "[Failed]"</span><br><span class="line">      fi</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)停止程序</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则开始执行停止，否则，提示程序未运行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 使用<span class="built_in">kill</span> -9 pid命令进行强制杀死进程</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4. 执行<span class="built_in">kill</span>命令行紧接其后，马上查看上一句命令的返回值: $?</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5. 如果步骤4的结果$?等于0,则打印[OK]，否则打印[Failed]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">6. 为了防止java程序被启动多次，这里增加反复检查进程，反复杀死的处理（递归调用stop）。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意：<span class="built_in">echo</span> -n 表示打印字符后，不换行</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意: 在shell编程中，<span class="string">"$?"</span> 表示上一句命令或者一个函数的返回值</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">stop() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ]; then</span><br><span class="line">      echo -n "Stopping $APP_MAINCLASS ...(pid=$psid) "</span><br><span class="line">      kill -9 $psid</span><br><span class="line">      if [ $? -eq 0 ]; then</span><br><span class="line">         echo "[OK]"</span><br><span class="line">      else</span><br><span class="line">         echo "[Failed]"</span><br><span class="line">      fi</span><br><span class="line"></span><br><span class="line">      checkpid</span><br><span class="line">      if [ $psid -ne 0 ]; then</span><br><span class="line">         stop</span><br><span class="line">      fi</span><br><span class="line">   else</span><br><span class="line">      echo "================================"</span><br><span class="line">      echo "warn: $APP_MAINCLASS is not running"</span><br><span class="line">      echo "================================"</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)检查程序运行状态</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">说明：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 首先调用checkpid函数，刷新<span class="variable">$psid</span>全局变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2. 如果程序已经启动（<span class="variable">$psid</span>不等于0），则提示正在运行并表示出pid</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. 否则，提示程序未运行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">status() &#123;</span><br><span class="line">   checkpid</span><br><span class="line"></span><br><span class="line">   if [ $psid -ne 0 ];  then</span><br><span class="line">      echo "$APP_MAINCLASS is running! (pid=$psid)"</span><br><span class="line">   else</span><br><span class="line">      echo "$APP_MAINCLASS is not running"</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">(函数)打印系统环境参数</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">info() &#123;</span><br><span class="line">   echo "System Information:"</span><br><span class="line">   echo "****************************"</span><br><span class="line">   echo `head -n 1 /etc/issue`</span><br><span class="line">   echo `uname -a`</span><br><span class="line">   echo</span><br><span class="line">   echo "JAVA_HOME=$JAVA_HOME"</span><br><span class="line">   echo `$JAVA_HOME/bin/java -version`</span><br><span class="line">   echo</span><br><span class="line">   echo "APP_HOME=$APP_HOME"</span><br><span class="line">   echo "APP_MAINCLASS=$APP_MAINCLASS"</span><br><span class="line">   echo "****************************"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">读取脚本的第一个参数(<span class="variable">$1</span>)，进行判断</span></span><br><span class="line"><span class="meta">#</span><span class="bash">参数取值范围：&#123;start|stop|restart|status|info&#125;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如参数不在指定范围之内，则打印帮助信息</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##################################</span></span></span><br><span class="line">case "$1" in</span><br><span class="line">   'start')</span><br><span class="line">      start</span><br><span class="line">      ;;</span><br><span class="line">   'stop')</span><br><span class="line">     stop</span><br><span class="line">     ;;</span><br><span class="line">   'restart')</span><br><span class="line">     stop</span><br><span class="line">     start</span><br><span class="line">     ;;</span><br><span class="line">   'status')</span><br><span class="line">     status</span><br><span class="line">     ;;</span><br><span class="line">   'info')</span><br><span class="line">     info</span><br><span class="line">     ;;</span><br><span class="line">  *)</span><br><span class="line">     echo "Usage: $0 &#123;start|stop|restart|status|info&#125;"</span><br><span class="line">     exit 1</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>至此,构建任务完成,点击开始构建应该就能正常运行</p>
+<p><a href="https://segmentfault.com/a/1190000017741598" target="_blank" rel="noopener">在CentOS 7上搭建 Jenkins + Maven + Git 持续集成环境</a><br><a href="https://segmentfault.com/a/1190000014325300" target="_blank" rel="noopener">jenkins+maven+docker+github全自动化部署SpringBoot实例</a><br><a href="https://www.cnblogs.com/EasonJim/p/6815365.html" target="_blank" rel="noopener">Maven属性（properties）标签的使用</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" data-id="ckg7mubb3000hooym9squ0zg7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-JavaWeb开发过程中的一些常用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/JavaWeb%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.911Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/JavaWeb%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/">JavaWeb开发过程中的一些常用技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Maven仓库下载特别慢的问题"><a href="#Maven仓库下载特别慢的问题" class="headerlink" title="Maven仓库下载特别慢的问题"></a>Maven仓库下载特别慢的问题</h4><p>由于众所周知的原因,国内访问maven仓库下载速度缓慢.目前推荐的解决办法是使用阿里云镜像.具体配置如下:</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/JavaWeb%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/" data-id="ckg7mubal0002ooym3wd2bg4z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Git撤销操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/08/Git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-10-08T08:55:36.910Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/08/Git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/">Git 常用命令记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="撤销commit但未push的操作"><a href="#撤销commit但未push的操作" class="headerlink" title="撤销commit但未push的操作"></a>撤销commit但未push的操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 获取上一条commit 的id</span><br><span class="line">git reflog </span><br><span class="line"># --hard 表示同时撤销本地代码的修改</span><br><span class="line">git reset [--hard] lastCommitId</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/08/Git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/" data-id="ckg7mubaj0001ooymcjj236h2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用Docker-Compose安装SonarQube并对Android项目进行代码审核" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/09/%E4%BD%BF%E7%94%A8Docker-Compose%E5%AE%89%E8%A3%85SonarQube%E5%B9%B6%E5%AF%B9Android%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8/" class="article-date">
+  <time datetime="2020-05-09T07:05:16.000Z" itemprop="datePublished">2020-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/09/%E4%BD%BF%E7%94%A8Docker-Compose%E5%AE%89%E8%A3%85SonarQube%E5%B9%B6%E5%AF%B9Android%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8/">使用SonarQube对Android项目进行代码审查</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="sonarqube服务器安装"><a href="#sonarqube服务器安装" class="headerlink" title="sonarqube服务器安装"></a>sonarqube服务器安装</h4><p>采用的是docker-compose进行安装,以下脚本来源于<br><a href="https://github.com/cookcodeblog/OneDayDevOps/blob/master/components/sonarqube/docker-compose.yml" target="_blank" rel="noopener">sonarqube-docker-compose</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;2&quot;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  sonarqube:</span><br><span class="line">    image: sonarqube:6.7.1</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9000:9000&quot;</span><br><span class="line">    depends_on:</span><br><span class="line">      - db</span><br><span class="line">    networks:</span><br><span class="line">      - sonarnet</span><br><span class="line">    environment:</span><br><span class="line">      - sonar.jdbc.username&#x3D;sonar</span><br><span class="line">      - sonar.jdbc.password&#x3D;sonar123</span><br><span class="line">      - sonar.jdbc.url&#x3D;jdbc:postgresql:&#x2F;&#x2F;db:5432&#x2F;sonarqube</span><br><span class="line">      - SONARQUBE_JDBC_USERNAME&#x3D;sonar</span><br><span class="line">      - SONARQUBE_JDBC_PASSWORD&#x3D;sonar123</span><br><span class="line">      - SONARQUBE_JDBC_URL&#x3D;jdbc:postgresql:&#x2F;&#x2F;db:5432&#x2F;sonarqube</span><br><span class="line">    volumes:</span><br><span class="line">      - &#x2F;srv&#x2F;docker&#x2F;sonarqube&#x2F;sonarqube_conf:&#x2F;opt&#x2F;sonarqube&#x2F;conf</span><br><span class="line">      - &#x2F;srv&#x2F;docker&#x2F;sonarqube&#x2F;sonarqube_data:&#x2F;opt&#x2F;sonarqube&#x2F;data</span><br><span class="line">      - &#x2F;srv&#x2F;docker&#x2F;sonarqube&#x2F;sonarqube_extensions:&#x2F;opt&#x2F;sonarqube&#x2F;extensions</span><br><span class="line"></span><br><span class="line">  db:</span><br><span class="line">    image: postgres:9.6</span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - sonarnet</span><br><span class="line">    environment:</span><br><span class="line">      - POSTGRES_USER&#x3D;sonar</span><br><span class="line">      - POSTGRES_PASSWORD&#x3D;sonar123</span><br><span class="line">      - POSTGRES_DB&#x3D;sonarqube</span><br><span class="line">    volumes:</span><br><span class="line">      - &#x2F;srv&#x2F;docker&#x2F;sonarqube&#x2F;postgresql:&#x2F;var&#x2F;lib&#x2F;postgresql</span><br><span class="line">      - &#x2F;srv&#x2F;docker&#x2F;sonarqube&#x2F;postgresql_data:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  sonarnet:</span><br><span class="line">    driver: bridge</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>请确保安装了docker及docker-compose,安装完成后,执行以下命令进行安装</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COMPOSE_HTTP_TIMEOUT&#x3D;120 docker-compose up</span><br></pre></td></tr></table></figure>
+<p>运气好的话,sonarqube服务器安装完成,可通过 <a href="http://ipAddress:9000" target="_blank" rel="noopener">http://ipAddress:9000</a> 访问.</p>
+<h4 id="在Gradle-Android项目-中集成sonarqube"><a href="#在Gradle-Android项目-中集成sonarqube" class="headerlink" title="在Gradle(Android项目)中集成sonarqube"></a>在Gradle(Android项目)中集成sonarqube</h4><h4 id="1-在Project级的Build-gradle中添加以下内容-共添加-6处"><a href="#1-在Project级的Build-gradle中添加以下内容-共添加-6处" class="headerlink" title="1.在Project级的Build.gradle中添加以下内容(共添加#6处)"></a>1.在Project级的Build.gradle中添加以下内容(共添加#6处)</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line">        ...<span class="comment">//其他项目用到的repositories</span></span><br><span class="line">        maven &#123; url <span class="string">"https://plugins.gradle.org/m2/"</span>&#125; <span class="comment">//#1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        ...<span class="comment">//其他项目用到的dependencies</span></span><br><span class="line">        <span class="keyword">classpath</span> (<span class="string">"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"</span>)<span class="comment">//#2</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//紧挨buildscript下方(位置有要求?) #3</span></span><br><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">"org.sonarqube"</span> version <span class="string">"2.6"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">"org.sonarqube"</span> <span class="comment">//#3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//#5</span></span><br><span class="line">sonarqube &#123;</span><br><span class="line">    properties &#123;</span><br><span class="line">        property <span class="string">"sonar.sourceEncoding"</span>, <span class="string">"UTF-8"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//#6</span></span><br><span class="line"><span class="keyword">subprojects</span> &#123;</span><br><span class="line">    sonarqube &#123;</span><br><span class="line">        properties &#123;</span><br><span class="line">            property <span class="string">"sonar.sources"</span>, <span class="string">"src/main/java"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="认证权限信息"><a href="#认证权限信息" class="headerlink" title="认证权限信息"></a>认证权限信息</h4><p>在gradle.properties文件中添加sonarqube服务器地址及登录token</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># gradle.properties</span><br><span class="line">systemProp.sonar.host.url&#x3D;http:&#x2F;&#x2F;ipAddress:9000</span><br><span class="line"></span><br><span class="line">#----- Token generated from an account with &#39;publish analysis&#39; permission</span><br><span class="line">systemProp.sonar.login&#x3D; xxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行命令-window平台"><a href="#运行命令-window平台" class="headerlink" title="运行命令(window平台)"></a>运行命令(window平台)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew sonarqube</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装期间遇到了什么问题"><a href="#安装期间遇到了什么问题" class="headerlink" title="安装期间遇到了什么问题"></a>安装期间遇到了什么问题</h4><p>Q:<code>执行docker-compose up -d时出现ERROR: Failed to Setup IP tables: Unable to enable SKIP DNAT rule</code></p>
+<h5 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h5><p>通过重启docker 服务解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service docker restart</span><br></pre></td></tr></table></figure>
+
+
+<p>Q:<code>Error creating container: UnixHTTPConnectionPool(host=&#39;localhost&#39;, port=None): Read timed out. (read timeout=60)</code></p>
+<h5 id="如何解决-1"><a href="#如何解决-1" class="headerlink" title="如何解决"></a>如何解决</h5><p>通过以下命令解决了超时的问题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COMPOSE_HTTP_TIMEOUT=120 docker-compose up</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/docker/compose/issues/4459#issuecomment-408199226" target="_blank" rel="noopener">issuecomment-408199226</a></p>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/09/%E4%BD%BF%E7%94%A8Docker-Compose%E5%AE%89%E8%A3%85SonarQube%E5%B9%B6%E5%AF%B9Android%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8/" data-id="ckg7mubb8000pooymb6b0c74w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-正则表达式-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/09/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-09T09:37:33.000Z" itemprop="datePublished">2020-04-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/09/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">正则表达式 学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="零宽断言"><a href="#零宽断言" class="headerlink" title="零宽断言"></a>零宽断言</h4><p>零宽断言是一种零宽度的匹配,它匹配到的内容不会保存到匹配结果中去,仅仅作为匹配的限定条件.以此规定此位置之前或者之后的字符必须满足限定条件才能使正则表达式匹配成功.</p>
+<h5 id="零宽度正预测先行断言-exp"><a href="#零宽度正预测先行断言-exp" class="headerlink" title="零宽度正预测先行断言 (?=exp)"></a>零宽度正预测先行断言 (?=exp)</h5><p>零宽度正预测先行断言，它断言自身出现的位置的左侧能匹配表达式exp<br>示例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">"abCDEFG"</span>;</span><br><span class="line"><span class="keyword">var</span> reg=<span class="regexp">/ab(?=[A-Z])/</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//result &gt; ab</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="零宽度正回顾后发断言-lt-exp"><a href="#零宽度正回顾后发断言-lt-exp" class="headerlink" title="零宽度正回顾后发断言 (?&lt;=exp)"></a>零宽度正回顾后发断言 (?&lt;=exp)</h5><p>它断言自身出现的位置的右侧能匹配表达式exp<br>示例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">"abcdefg"</span>;</span><br><span class="line"><span class="keyword">var</span> reg=<span class="regexp">/(?&lt;=abc)defg/</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//result &gt; defg</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="零宽度负预测先行断言-exp"><a href="#零宽度负预测先行断言-exp" class="headerlink" title="零宽度负预测先行断言 (?!exp)"></a>零宽度负预测先行断言 (?!exp)</h5><p>断言此位置的右侧不能匹配表达式exp</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">"abcdefg"</span>;</span><br><span class="line"><span class="keyword">var</span> reg=<span class="regexp">/abc(?![A-Z])/</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//result &gt; abc</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="零宽度负回顾后发断言-lt-exp"><a href="#零宽度负回顾后发断言-lt-exp" class="headerlink" title="零宽度负回顾后发断言 (?&lt;!exp)"></a>零宽度负回顾后发断言 (?&lt;!exp)</h5><p>断言此位置的左侧不能匹配表达式exp</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">"abcdefg"</span>;</span><br><span class="line"><span class="keyword">var</span> reg=<span class="regexp">/(?![A-Z])defg/</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//result &gt; defg</span></span><br></pre></td></tr></table></figure>
+
+<p>参考链接:<br><a href="https://www.cnblogs.com/onepixel/articles/7717789.html" target="_blank" rel="noopener">正则表达式零宽断言详解</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/09/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckg7mubcu001gooymeyw57sgo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Blender-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/03/Blender-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-03T14:28:16.000Z" itemprop="datePublished">2020-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/03/Blender-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Blender 快捷键学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h3><p>在编辑模式下(Edit Mode),使用Ctrl+Tab 可以切换点线面的编辑状态<br>停止当前操作：【ESC】<br>快捷搜索：【SPACE】<br>撤销：【Ctrl】+【z】<br>重做：【Ctrl】+【shift】+【z】<br>渲染：【F12】<br>单选：【鼠标右键】（RMB）<br>全选：【A】<br>框选：【B】<br>刷选：【C】<br>套选：【Ctrl】+【鼠标左键】（LMB）<br>删除：【X】/【Delete】<br>复制：【Shift】+【D】<br>添加：【Shift】+【A】<br>取消：【Esc】/【RMB】<br>确认：【Return】/【LMB】</p>
+<h4 id="界面操作"><a href="#界面操作" class="headerlink" title="界面操作"></a>界面操作</h4><p>工具栏位置对称切换：【F5】<br>固定/解固定工具栏：【SHIFT】+【LMB】<br>放大/缩小：【SHIFT】+【SPACE】<br>放大/缩小：【Ctrl】+【UP】/【Ctrl】+【DOWN】<br>移动视窗：【SHIFT】+【鼠标滚轮】<br>旋转视窗：【鼠标滚轮】<br>3DView：【SHIFT】+【F5】<br>UVEditorView：【SHIFT】+【F10】</p>
+<h4 id="小键盘"><a href="#小键盘" class="headerlink" title="小键盘"></a>小键盘</h4><p>透视开启/关闭：【5】<br>前视图（+Ctrl后视图）：【1】<br>右视图（+Ctrl左视图）：【2】<br>顶视图（+Ctrl底视图）：【7】<br>摄像机视角（如果有摄像机）：【0】<br>将当前视图设为摄像机视角：【Ctrl】+【alt】+【0】<br>全屏显示当前视图：【Ctrl】+【up】<br>显示选中目标：小键盘【del】<br>显示所有目标：【Home】<br>场景平移：【Shift】+【鼠标中键】<br>场景缩放：【Ctrl】+【鼠标中键】（或者【滚轮】）</p>
+<h4 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h4><p>编辑模式：【Tab】<br>点线面三模式切换（编辑模式下）：【Tab】+【Ctrl】<br>加选/减选：【Ctrl】+【小键盘+/-】（可定义为【PageUP】，【PageDown】）<br>选择循环点/边/面：【Alt】+【LMB】<br>线框模式：【Z】<br>隐藏选中目标：【H】<br>显示所有隐藏目标：【Alt】+【H】</p>
+<h5 id="选中目标状态下"><a href="#选中目标状态下" class="headerlink" title="选中目标状态下"></a>选中目标状态下</h5><p>挤出：【E】+【LMB】（挤出到鼠标位置）<br>移动：【G】<br>旋转：【R】<br>缩放：【S】(以上操作再按下X、Y、Z以固定轴向、轴心活动）<br>内插面：【i】<br>顶点/边滑移：【GG】<br>环切：【Ctrl】+【R】<br>边线折痕：【Shift】+【E】<br>快捷拓展命令栏：【W】<br>切割：【K】<br>分割：【Y】<br>分离（单独个体）：【P】<br>合并：【Ctrl】+【J】<br>倒角：【Ctrl】+【B】<br>球形化：【Shift】+【Alt】+【S】<br>关联选取：【L】<br>相似选取：【Shift】+【G】<br>创建父级：【Ctrl】+【P】<br>清除父级：【Alt】+【P】<br>吸附：【Shift】+【S】</p>
+<h3 id="入门参考资料"><a href="#入门参考资料" class="headerlink" title="入门参考资料"></a>入门参考资料</h3><p><a href="https://www.bilibili.com/read/cv3768008/" target="_blank" rel="noopener">一个Blender初心者的建模笔记</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/03/Blender-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckg7mubap0005ooymbn1c0ljp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Node-Express-使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/01/Node-Express-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-01T08:12:25.000Z" itemprop="datePublished">2020-04-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/01/Node-Express-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">NodeJs Express 使用笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h4><p>Express 提供了内置的中间件 express.static 来设置静态文件如：图片， CSS, JavaScript 等<br>你可以使用 express.static 中间件来设置静态文件路径。例如，如果你将图片， CSS, JavaScript 文件放在 public 目录下，你可以这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.use(&#39;&#x2F;public&#39;, express.static(&#39;public&#39;));</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/01/Node-Express-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" data-id="ckg7mubao0004ooymb7n86ku7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Flutter软键盘遮挡问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/03/31/Flutter%E8%BD%AF%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E9%97%AE%E9%A2%98/" class="article-date">
@@ -173,178 +572,11 @@
 
 
   
-    <article id="post-用photoshop抹去图片上的内容" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/" class="article-date">
-  <time datetime="2020-03-31T08:12:10.000Z" itemprop="datePublished">2020-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/photoshop/">photoshop</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/">用photoshop抹去图片上的内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>快速抹除图片上的内容</p>
-<ol>
-<li>使用快捷键Ctrl+J将原图层复制</li>
-<li>使用套索工具将需要抹除的内容进行框选</li>
-<li>使用快捷键Shift+F5 调出填充对话框.点击确认.</li>
-<li>内容成功抹除</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/31/%E7%94%A8photoshop%E6%8A%B9%E5%8E%BB%E5%9B%BE%E7%89%87%E4%B8%8A%E7%9A%84%E5%86%85%E5%AE%B9/" data-id="ckg7mubcj0015ooymfkdl5s4g" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-数据库索引相关" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" class="article-date">
-  <time datetime="2020-03-31T08:12:10.000Z" itemprop="datePublished">2020-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/">数据库索引相关</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="为什么要给表加上主键"><a href="#为什么要给表加上主键" class="headerlink" title="为什么要给表加上主键?"></a>为什么要给表加上主键?</h4><p>主键的作用就是把「表」的数据格式转换成「索引（平衡树）」的格式放置,表上了主键，那么表在磁盘上的存储结构就由整齐排列的结构转变成了树状结构，整个表就变成了一个索引,也就是所谓的「聚集索引」,这就是为什么一个表只能有一个主键， 一个表只能有一个「聚集索引」</p>
-<h4 id="为什么加索引后会使查询变快？"><a href="#为什么加索引后会使查询变快？" class="headerlink" title="为什么加索引后会使查询变快？"></a>为什么加索引后会使查询变快？</h4><p>在未加上索引的情况下,按照常规的逻辑，一条条去匹配的话,最坏的情况的匹配O(n)次才能得到结果,如果这个n足够大的话.这是无法接受的,这N次匹配不经过缓存优化的情况下就是n次IO开销，如果把表转换成平衡树结构，那么时间复杂度就是成指数级下降.</p>
-<h4 id="为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？"><a href="#为什么加索引后会使写入、修改、删除变慢-加了索引后-会有什么副作用-？" class="headerlink" title="为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？"></a>为什么加索引后会使写入、修改、删除变慢(加了索引后,会有什么副作用)？</h4><p>事物都有两面性,索引能让数据库查询数据的速度上升,而使写入数据的速度下降,原因很简单的,因为平衡树这个结构必须一直维持在一个正确的状态,增删改数据都会改变平衡树各节点中的索引数据内容,破坏树结构，因此，在每次数据改变时， DBMS必须去重新梳理树（索引）的结构以确保它的正确，这会带来不小的性能开销，也就是为什么索引会给查询以外的操作带来副作用的原因。</p>
-<h4 id="什么情况下要同时在两个字段上建索引？"><a href="#什么情况下要同时在两个字段上建索引？" class="headerlink" title="什么情况下要同时在两个字段上建索引？"></a>什么情况下要同时在两个字段上建索引？</h4><p>通过聚集索引可以查到需要查找的数据,而通过非聚集索引可以查到记录对应的主键值,再使用主键的值通过聚集索引查找到需要的数据,不管以任何方式查询表,最终都会利用主键通过聚集索引来定位到数据,聚集索引（主键）是通往真实数据所在的唯一路径.然而有一种例外可以不使用聚集索引就能查询出所需要的数据,这种非主流的方法 称之为「覆盖索引」查询,也就是平时所说的复合索引或者多字段索引查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;建立索引</span><br><span class="line">create index index_birthday on user_info(birthday);</span><br></pre></td></tr></table></figure>
-
-<p>假设我们进行以下的查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select user_name from user_info where birthday &#x3D; &#39;1991-11-1&#39;</span><br></pre></td></tr></table></figure>
-<p>这句话执行的操作如下:</p>
-<ol>
-<li>通过非聚集索引index_birthday查找birthday等于1991-11-1的所有记录的主键ID值</li>
-<li>通过得到的主键ID值执行聚集索引查找，找到主键ID值对就的真实数据（数据行）存储的位置</li>
-<li>从得到的真实数据中取得user_name字段的值返回， 也就是取得最终的结果</li>
-</ol>
-<p>我们把birthday字段上的索引改成双字段的覆盖索引</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index index_birthday_and_user_name on user_info(birthday, user_name);</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>通过非聚集索引index_birthday_and_user_name查找birthday等于1991-11-1的叶节点的内容.</li>
-<li>由于叶节点中除了有user_name表主键ID的值以外,user_name字段的值也在里面,因此不需要通过主键ID值的查找数据行的真实所在， 直接取得叶节点中user_name的值返回即可.<br>通过这种覆盖索引直接查找的方式,可以省略不使用覆盖索引查找的后面两个步骤,大大的提高了查询性能</li>
-</ol>
-<p>以上问题答案来源于<a href="https://zhuanlan.zhihu.com/p/23624390" target="_blank" rel="noopener">【最佳实践】陈大侠-深入浅出数据库索引原理</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3/" data-id="ckg7mubcl0017ooym3oyoce6n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-使用flutter-launcher-icons插件快速替换Flutter项目启动图标" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/" class="article-date">
-  <time datetime="2020-03-31T01:56:11.000Z" itemprop="datePublished">2020-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/">使用flutter_launcher_icons插件快速替换Flutter项目启动图标</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>插件地址:<br><a href="https://github.com/fluttercommunity/flutter_launcher_icons" target="_blank" rel="noopener">flutter_launcher_icons</a></p>
-<p>使用方法(通用版,如不能满足,请看原仓库README.MD)</p>
-<ol>
-<li>在pubspec.yaml中新增以下内容:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dev_dependencies: </span><br><span class="line">  flutter_launcher_icons: &quot;^0.7.2&quot;</span><br><span class="line">  </span><br><span class="line">flutter_icons:</span><br><span class="line">  android: true</span><br><span class="line">  ios: true</span><br><span class="line">  image_path: &quot;assets&#x2F;icon&#x2F;icon.png&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="android-ios配置项有以下属性"><a href="#android-ios配置项有以下属性" class="headerlink" title="android/ios配置项有以下属性"></a>android/ios配置项有以下属性</h4></li>
-<li>true 替换特定平台(android/ios)的启动图标</li>
-<li>false 本次忽略特定平台(android/ios)的启动图标的生成</li>
-<li>icon/path/here.png 为特定平台生成指定命名的图标,而不移除原平台的启动图标</li>
-</ol>
-<h4 id="image-path"><a href="#image-path" class="headerlink" title="image_path"></a>image_path</h4><p>你想用来作为启动图标的的资源文件路径(例如:assets/images/…)</p>
-<h4 id="image-path-android-可选"><a href="#image-path-android-可选" class="headerlink" title="image_path_android(可选)"></a>image_path_android(可选)</h4><p>单独为android平台指定启动图标的资源文件路径,可选配置，如果没有，则默认使用image_path的设置</p>
-<h4 id="image-path-ios-可选"><a href="#image-path-ios-可选" class="headerlink" title="image_path_ios(可选)"></a>image_path_ios(可选)</h4><p>单独为ios平台指定启动图标的资源文件路径,可选配置，如果没有，则默认使用image_path的设置</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/31/%E4%BD%BF%E7%94%A8flutter-launcher-icons%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8D%A2Flutter%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87/" data-id="ckg7mubbv000vooym8wiw7yyy" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -355,7 +587,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF-Flutter/">前端-Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%88/">技术栈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
     </div>
   </div>
 
@@ -365,7 +597,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blender/" rel="tag">Blender</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs-Express/" rel="tag">NodeJs Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uni-app/" rel="tag">uni-app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag">代码审查</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li></ul>
     </div>
   </div>
 
@@ -375,7 +607,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
+      <a href="/tags/Blender/" style="font-size: 10px;">Blender</a> <a href="/tags/NodeJs-Express/" style="font-size: 10px;">NodeJs Express</a> <a href="/tags/uni-app/" style="font-size: 10px;">uni-app</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 10px;">代码审查</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 20px;">工具使用</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a>
     </div>
   </div>
 
@@ -384,7 +616,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
     </div>
   </div>
 
@@ -397,23 +629,23 @@
       <ul>
         
           <li>
-            <a href="/2020/10/13/JavaScript%20%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/">JavaScript 函数调用传参问题</a>
+            <a href="/2020/11/06/%E5%9C%A8Vue%E4%B8%AD%E4%BD%BF%E7%94%A8svg-icon%E7%AC%94%E8%AE%B0/">在Vue中使用svg-icon笔记</a>
           </li>
         
           <li>
-            <a href="/2020/10/08/Vue%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">Vue前端插件使用ESLint</a>
+            <a href="/2020/11/03/uni-app%E6%8A%80%E6%9C%AF%E6%A0%88/">UNI-APP技术栈</a>
           </li>
         
           <li>
-            <a href="/2020/10/08/%E5%8D%9A%E4%B8%BB/">博主</a>
+            <a href="/2020/10/23/Vue%20CLI3%20%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5px2rem%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/">Vue CLI3 项目引入px2rem适配方案笔记</a>
           </li>
         
           <li>
-            <a href="/2020/10/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5/">Hello World</a>
+            <a href="/2020/10/23/ubuntu%E4%B8%8Bnginx%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">ubuntu下nginx相关操作</a>
           </li>
         
           <li>
-            <a href="/2020/10/08/%E4%BD%BF%E7%94%A8TypeScript%E5%BC%80%E5%8F%91NodeJs%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/">使用TypeScript开发NodeJs后端项目</a>
+            <a href="/2020/10/21/Shell%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Shell笔记</a>
           </li>
         
       </ul>
