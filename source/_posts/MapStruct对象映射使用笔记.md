@@ -36,7 +36,19 @@ tags: MapStruct
 
 然后死活报(No qualifying bean of type vailable: expected at least 1 bean ...)的错误.换成mapstruct-jdk8就通了.原因目前未知
 
+### 工具类封装
+
+```
+
+```
+
 ### MapStruct常用示例
+
+#### 常规使用
+
+```
+
+```
 
 ### MapStruct有哪些坑
 
@@ -54,4 +66,5 @@ PO（Persistent Object）：持久化对象，它跟持久层（通常是关系�
 
 [官方文档](https://mapstruct.org/documentation/stable/reference/html/)
 [mapstruct最佳实践](https://www.cnblogs.com/vcmq/archive/2020/03/21/12542336.html)
+[MapStruct 使用简介](https://juejin.im/post/6844904094868439048)
 [领域驱动设计系列文章（2）——浅析VO、DTO、DO、PO的概念、区别和用处](https://www.cnblogs.com/qixuejia/p/4390086.html)
