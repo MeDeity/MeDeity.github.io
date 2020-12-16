@@ -88,13 +88,13 @@ public class RedisCacheConfig {
         template.setKeySerializer(new StringRedisSerializer());
         // 设置value的序列化器
         //使用Jackson 2，将对象序列化为JSON
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        //json转对象类，不设置默认的会将json转成hashmap
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+
+        redisTemplate.setKeySerializer(genericJackson2JsonRedisSerializer);
+        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
 
         return template;
     }
