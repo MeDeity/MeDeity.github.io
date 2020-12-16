@@ -53,20 +53,28 @@ spring:
 默认配置情况下只支持 RedisTemplate<String, String>,我们通过添加配置进行扩展
 
 ```java
+package com.liyisoft.filemanagement.v1.config;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.cache.annotation.EnableCaching;
+
+import static org.springframework.data.redis.cache.RedisCacheConfiguration.defaultCacheConfig;
 
 
 @Configuration
-@EnableCaching  //开启缓存支持
+@EnableCaching  //开启缓存
 public class RedisCacheConfig {
     /**
      * 申明缓存管理器，会创建一个切面（aspect）并触发Spring缓存注解的切点（pointcut）
@@ -75,28 +83,31 @@ public class RedisCacheConfig {
      */
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        return RedisCacheManager.create(redisConnectionFactory);
+        RedisCacheConfiguration cacheConfiguration =
+                defaultCacheConfig()
+                        .disableCachingNullValues()
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
     }
 
     @Bean
     public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
         // 创建一个模板类
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 将刚才的redis连接工厂设置到模板类中
-        template.setConnectionFactory(factory);
-        // 设置key的序列化器
-        template.setKeySerializer(new StringRedisSerializer());
-        // 设置value的序列化器
+        redisTemplate.setConnectionFactory(factory);
         //使用Jackson 2，将对象序列化为JSON
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
 
+        // 设置key的序列化器
         redisTemplate.setKeySerializer(genericJackson2JsonRedisSerializer);
+        // 设置value的序列化器
         redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
 
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
 
-        return template;
+        return redisTemplate;
     }
 }
 
