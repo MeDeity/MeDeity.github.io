@@ -25,3 +25,7 @@ tags:
 #### 分组校验
 
 #### 自定义校验
+
+#### 参考
+
+[SpringBoot 参数校验的方法](https://www.cnblogs.com/mooba/p/11276062.html)

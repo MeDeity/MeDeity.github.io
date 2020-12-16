@@ -1,5 +1,5 @@
 ---
-title: 'SpringBoot缓存设置笔记'
+title: 'SpringBoot缓存(Redis)设置笔记'
 date: 2020-12-02
 categories: 
   - 后端-SpringBoot
@@ -53,92 +53,79 @@ spring:
 默认配置情况下只支持 RedisTemplate<String, String>,我们通过添加配置进行扩展
 
 ```java
-package com.liyisoft.filemanagement.v1.config;
-
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.interceptor.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import javax.annotation.Resource;
 
-import static org.springframework.data.redis.cache.RedisCacheConfiguration.defaultCacheConfig;
-
-/**
- * 缓存配置
- */
 @Configuration
-public class RedisConfig extends CachingConfigurerSupport {
-
-    @Resource
-    private RedisConnectionFactory factory;
-
+@EnableCaching  //开启缓存支持
+public class RedisCacheConfig {
     /**
-     * 自定义生成redis-key
-     *
-     * @return
+     * 申明缓存管理器，会创建一个切面（aspect）并触发Spring缓存注解的切点（pointcut）
+     * 根据类或者方法所使用的注解以及缓存的状态，这个切面会从缓存中获取数据，将数据添加到缓存之中或者从缓存中移除某个值
+     * @return RedisCacheManager
      */
-    @Override
     @Bean
-    public KeyGenerator keyGenerator() {
-        return (o, method, objects) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(o.getClass().getName()).append(".");
-            sb.append(method.getName()).append(".");
-            for (Object obj : objects) {
-                sb.append(obj.toString());
-            }
-            System.out.println("keyGenerator=" + sb.toString());
-            return sb.toString();
-        };
+    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        return RedisCacheManager.create(redisConnectionFactory);
     }
 
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate() {
-        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(factory);
+    public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
+        // 创建一个模板类
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        // 将刚才的redis连接工厂设置到模板类中
+        template.setConnectionFactory(factory);
+        // 设置key的序列化器
+        template.setKeySerializer(new StringRedisSerializer());
+        // 设置value的序列化器
+        //使用Jackson 2，将对象序列化为JSON
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        //json转对象类，不设置默认的会将json转成hashmap
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        template.setValueSerializer(jackson2JsonRedisSerializer);
 
-        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
-
-        redisTemplate.setKeySerializer(genericJackson2JsonRedisSerializer);
-        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
-
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
-        return redisTemplate;
-    }
-
-    @Bean
-    @Override
-    public CacheResolver cacheResolver() {
-        return new SimpleCacheResolver(cacheManager());
-    }
-
-    @Bean
-    @Override
-    public CacheErrorHandler errorHandler() {
-        // 用于捕获从Cache中进行CRUD时的异常的回调处理器。
-        return new SimpleCacheErrorHandler();
-    }
-
-    @Bean
-    @Override
-    public CacheManager cacheManager() {
-        RedisCacheConfiguration cacheConfiguration =
-                defaultCacheConfig()
-                        .disableCachingNullValues()
-                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-        return RedisCacheManager.builder(factory).cacheDefaults(cacheConfiguration).build();
-
+        return template;
     }
 }
 
 ```
+
+```java
+@RestController
+@CacheConfig(cacheNames = {"sysUsers"})
+public class SysUserController{
+    
+    @RequestMapping(value = "/getAllUsers")
+    @Cacheable(key = "targetClass+methodName+#p0+#p1")
+    public Response getAllUsers(@RequestParam int page, @RequestParam int limit){
+        return sysUserService.getAllUsers(page,limit);
+    }
+}
+```
+
+注解说明:
+@CacheConfig(cacheNames = {"sysUsers"})
+该注解在类上全局声明缓存的命名空间(缓存名称).如果@Cacheable也指定了命名空间,则该命名空间会被@Cacheable的value所覆盖
+@Cacheable(value="users"),则方法的缓存的名称变为users,而不再是sysUsers
+
+@Cacheable(value={"user,sysUsers"},key = "targetClass+methodName+#p0+#p1")
+标记在方法上,value指定了缓存的命名空间,可以指定多个,key参数指定了缓存的ID,可以为空,如果为空,则按照所有参数进行组合生成对应的系统Key
+
+@CacheEvict(value={"user"})
+从缓存中移除相应的数据,
+
+参考资料:
+[基于Redis的Spring cache 缓存介绍](https://www.cnblogs.com/junzi2099/p/8301796.html)
+[优雅的缓存解决方案--SpringCache和Redis集成(SpringBoot)](https://juejin.cn/post/6844903807646711821)
