@@ -57,6 +57,7 @@ public class TestAliyunOssStsToken {
 
     public static void main(String[] args) {
         String endpoint = "<sts-endpoint>";
+        // String endpoint = sts.cn-hangzhou.aliyuncs.com;
         String AccessKeyId = "<access-key-id>";
         String accessKeySecret = "<access-key-secret>";
         String roleArn = "<role-arn>";
@@ -97,7 +98,7 @@ public class TestAliyunOssStsToken {
 
 需要特别说明的是
 
-1. endpoint:STS接入地址，例如sts.cn-hangzhou.aliyuncs.com(杭州)。各地域的STS接入地址请参见[接入地址](https://help.aliyun.com/document_detail/66053.html?spm=a2c4g.11186623.2.23.3cb1107emZlciL#reference-sdg-3pv-xdb)
+1. endpoint:STS接入地址，例如sts.cn-hangzhou.aliyuncs.com(杭州,注意没有http之类)。各地域的STS接入地址请参见[接入地址](https://help.aliyun.com/document_detail/66053.html?spm=a2c4g.11186623.2.23.3cb1107emZlciL#reference-sdg-3pv-xdb)
 2. AccessKeyId、AccessKeySecret：步骤1中保存的访问密钥。
 3. RoleArn：步骤3中保存的角色ARN。
 4. RoleSessionName：用来标识临时访问凭证的名称，建议使用不同的应用程序用户来区分。[这个由用户自定义来区分凭证使用场景,这个会在返回值中AssumedRoleUser有所体现]
