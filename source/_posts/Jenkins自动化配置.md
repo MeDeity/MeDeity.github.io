@@ -12,6 +12,7 @@ docker exec -it jenkins /bin/bash
 # 获取初始密码
 cat /var/jenkins_home/secrets/initialAdminPassword
 ```
+
 > 特别注意:如果访问不了,使用的是阿里云的服务器器,请确保在安全组放行特定的端口
 
 ##### 插件安装
@@ -22,7 +23,9 @@ cat /var/jenkins_home/secrets/initialAdminPassword
 -Publish Over SSH
 
 ##### Publish Over SSH配置
+
 在系统管理/配置/Publish over SSH下新增配置
+
 1. Name: 应用服务器的名称
 2. Hostname: 主机地址
 3. Username: 登录用户名
@@ -32,6 +35,7 @@ cat /var/jenkins_home/secrets/initialAdminPassword
 则Publish Over SSH配置配置成功
 
 ##### JDK配置
+
 在系统管理/全局工具配置/JDK安装
 如果使用的是外部的JDK,根据我们设置的volume(/home/jenkins_home),需要将JDK安装在此处,否则Jenkins会找不到,当然在/home/jenkins_home
 处软链接JDK的位置应该也可以,具体没试验.
@@ -40,31 +44,37 @@ JAVA_HOME: /home/jenkins_home/java/jdk1.8.0_241
 如果你对JDK版本没有特殊要求,你也可以让jenkins自行安装
 
 ##### Maven配置
-同JDK配置.尽量在volume(/home/jenkins_home)目录下,要不然会出现找不到Maven的情况.当然最省事的就是让Jenkins自行安装
 
+同JDK配置.尽量在volume(/home/jenkins_home)目录下,要不然会出现找不到Maven的情况.当然最省事的就是让Jenkins自行安装
 
 ##### Maven 任务
 
 ###### General选项卡
+
 在描述中填写该构建任务的备注信息,其中特别重要的是请务必开启丢弃旧的构建,在多次构建后,很容易将服务器撑爆.一般情况下可以设置保留几天内的构建,并保留最大的构建数.
 
 ###### 源码管理选项卡
+
 推荐使用GIT进行项目管理.添加必要的认证证书,指定构建分支(一般情况下使用*/master)
 
 ###### 构建触发器选项卡
+
 选中Build whenever a SNAPSHOT dependency is built及GitHub hook trigger for GITScm polling
 其中GitHub hook trigger for GITScm polling是个比较有用的一个功能
 
 ###### 构建环境选项卡
+
 勾选 Add timestamps to the Console Output 将构建时间记录现在在控制台输出中
 
 ###### Build选项卡
+
 Root POM: pom.xml
 Goals and options: clean install -Ptest -Dmaven.test.skip=true
 
 >跳过测试用例
 
 ###### Post Steps选项卡
+
 1. 选中 Run only if build succeeds
 2. 在Add post-build step 中选中(Send files or execute commands over SSH)
 3. SSH Publishers设置
@@ -75,6 +85,7 @@ Transfers Set 设置
 在此处就可以配置 target/deployment,这样 在远程服务器上就只会生成 images文件夹目录.
 7. Remote directory: 文件将拷贝到哪个目录下,如果该目录不存在会自动创建
 8. Exec command: 拷贝完成后在远程服务器上执行的脚本
+
 ```
 cd /home/project/license_process/
 tar -zxvf license_process-1.0-SNAPSHOT-bin.tar.gz
@@ -267,8 +278,7 @@ exit 0
 
 至此,构建任务完成,点击开始构建应该就能正常运行
 
-
+[Docker 搭建 Jenkins 实现自动部署](https://segmentfault.com/a/1190000021566330?utm_source=sf-related)
 [在CentOS 7上搭建 Jenkins + Maven + Git 持续集成环境](https://segmentfault.com/a/1190000017741598)
 [jenkins+maven+docker+github全自动化部署SpringBoot实例](https://segmentfault.com/a/1190000014325300)
 [Maven属性（properties）标签的使用](https://www.cnblogs.com/EasonJim/p/6815365.html)
-

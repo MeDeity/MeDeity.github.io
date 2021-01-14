@@ -1,5 +1,5 @@
 ---
-title: 'SpringBoot缓存(Redis)设置笔记'
+title: 'SpringBoot缓存(Redis)设置(自定义KEY的过期时间)笔记'
 date: 2020-12-02
 categories: 
   - 后端-SpringBoot
@@ -135,8 +135,213 @@ public class SysUserController{
 标记在方法上,value指定了缓存的命名空间,可以指定多个,key参数指定了缓存的ID,可以为空,如果为空,则按照所有参数进行组合生成对应的系统Key
 
 @CacheEvict(value={"user"})
-从缓存中移除相应的数据,
+从缓存中移除相应的数据
+
+#### 自定义KEY键值的过期时间
+
+redis-cache-timeout.yml
+
+```yml
+# 该配置文件主要用于Redis缓存KEY 自定义超时时间
+redis-keys:
+  list:
+    # 格式key&time 单位:分钟
+    - aliyunoss&30
+    - stsToken&30
+```
+
+>由于@ConfigurationProperties 注解取消 locations 属性。因此读取其他配置文件内配置项，需@ConfigurationProperties与@PropertySource配合使用,但是
+@PropertySource只支持properties 文件不支持yml文件,因此解析器需要重写
+YamlPropertySourceFactory.java 解析yml文件
+
+```java
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+ 
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertySourceFactory;
+import org.springframework.lang.Nullable;
+ 
+public class YamlPropertySourceFactory implements PropertySourceFactory {
+ 
+    @Override
+    public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource) throws IOException {
+        Properties propertiesFromYaml = loadYamlIntoProperties(resource);
+        String sourceName = name != null ? name : resource.getResource().getFilename();
+        return new PropertiesPropertySource(sourceName, propertiesFromYaml);
+    }
+ 
+    private Properties loadYamlIntoProperties(EncodedResource resource) throws FileNotFoundException {
+        try {
+            YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
+            factory.setResources(resource.getResource());
+            factory.afterPropertiesSet();
+            return factory.getObject();
+        } catch (IllegalStateException e) {
+            // for ignoreResourceNotFound
+            Throwable cause = e.getCause();
+            if (cause instanceof FileNotFoundException)
+                throw (FileNotFoundException) e.getCause();
+            throw e;
+        }
+    }
+}
+```
+
+改造RedisCacheConfig.java配置文件
+
+```java
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.interceptor.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import javax.annotation.Resource;
+
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static org.springframework.data.redis.cache.RedisCacheConfiguration.defaultCacheConfig;
+
+/**
+ * 缓存配置
+ */
+@Configuration
+@Slf4j
+public class RedisConfig extends CachingConfigurerSupport {
+
+    @Resource
+    private RedisConnectionFactory factory;
+    @Resource
+    private RedisCacheTimeoutKey redisCacheTimeoutKey;
+
+    /**
+     * 自定义生成redis-key
+     *
+     * @return
+     */
+    @Override
+    @Bean
+    public KeyGenerator keyGenerator() {
+        return (o, method, objects) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(o.getClass().getName()).append(".");
+            sb.append(method.getName()).append(".");
+            for (Object obj : objects) {
+                sb.append(obj.toString());
+            }
+            System.out.println("keyGenerator=" + sb.toString());
+            return sb.toString();
+        };
+    }
+
+    @Bean
+    @Override
+    public CacheResolver cacheResolver() {
+        return new SimpleCacheResolver(cacheManager());
+    }
+
+    @Bean
+    @Override
+    public CacheErrorHandler errorHandler() {
+        // 用于捕获从Cache中进行CRUD时的异常的回调处理器。
+        return new SimpleCacheErrorHandler();
+    }
+
+    private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(Integer seconds) {
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
+        redisCacheConfiguration = redisCacheConfiguration.serializeValuesWith(
+                RedisSerializationContext
+                        .SerializationPair
+                        .fromSerializer(jackson2JsonRedisSerializer)
+        ).entryTtl(Duration.ofSeconds(seconds));
+        return redisCacheConfiguration;
+    }
+
+    @Bean
+    public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
+        // 创建一个模板类
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        // 将刚才的redis连接工厂设置到模板类中
+        redisTemplate.setConnectionFactory(factory);
+        //使用Jackson 2，将对象序列化为JSON
+        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+
+        // 设置key的序列化器
+        redisTemplate.setKeySerializer(genericJackson2JsonRedisSerializer);
+        // 设置value的序列化器
+        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
+
+        return redisTemplate;
+    }
+    
+    /**
+     * 申明缓存管理器，会创建一个切面（aspect）并触发Spring缓存注解的切点（pointcut）
+     * 根据类或者方法所使用的注解以及缓存的状态，这个切面会从缓存中获取数据，将数据添加到缓存之中或者从缓存中移除某个值
+     * @return RedisCacheManager
+     */
+    @Bean
+    @Override
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        RedisCacheConfiguration cacheConfiguration =
+                defaultCacheConfig()
+                        .disableCachingNullValues()
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+        Set<String> cacheNames =new HashSet<>();
+        ConcurrentHashMap<String,RedisCacheConfiguration> cacheConfig = new ConcurrentHashMap<>();
+        if (ObjectUtils.allNotNull(redisCacheTimeoutKey,redisCacheTimeoutKey.getList())) {
+            for (String keyAndValue : redisCacheTimeoutKey.getList()) {
+                String[] array = keyAndValue.split("&");
+                if (array.length != 2) {
+                    continue;
+                }
+                String key = array[0];
+                int value = Integer.parseInt(array[1]);
+                log.info("缓存设置:键值:{},有效期:{}分钟", key, value);
+                cacheNames.add(key);
+                cacheConfig.put(key, cacheConfiguration.entryTtl(Duration.ofMinutes(value)));
+            }
+        }
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration)
+                .initialCacheNames(cacheNames)
+                .withInitialCacheConfigurations(cacheConfig)
+                .build();
+
+    }
+}
+
+```
 
 参考资料:
 [基于Redis的Spring cache 缓存介绍](https://www.cnblogs.com/junzi2099/p/8301796.html)
 [优雅的缓存解决方案--SpringCache和Redis集成(SpringBoot)](https://juejin.cn/post/6844903807646711821)
+[@PropertySource 注解实现读取 yml 文件](https://juejin.cn/post/6844903768308334606)
