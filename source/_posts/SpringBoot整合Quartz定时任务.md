@@ -117,3 +117,5 @@ public class DemoQuartzJob extends QuartzJobBean {
     }
 }
 ```
+
+[Quartz数据库建表sql](https://github.com/quartz-scheduler/quartz/tree/9f9e400733f51f7cb658e3319fc2c140ab8af938/quartz-core/src/main/resources/org/quartz/impl/jdbcjobstore)
