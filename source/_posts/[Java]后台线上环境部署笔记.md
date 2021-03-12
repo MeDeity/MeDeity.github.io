@@ -106,6 +106,15 @@ symbolic-links=0
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 ```
 
+##### 错误处理:Data truncation: Incorrect datetime value: '0000-00-00 00:00:00' for column xxx
+
+```sql
+# 查看全局sql_mode
+select @@global.sql_mode;
+# 修改sql_mode(将上述查询到的sql_mode中的NO_ZERO_DATE和NO_ZERO_IN_DATE删除即可)
+set @@global.sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+```
+
 ##### Docker安装Jenkins
 
 ```shell
