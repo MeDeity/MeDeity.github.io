@@ -55,8 +55,6 @@ spring:
 三、定时任务及触发器配置
 
 ```java
-import com.liyisoft.license.task.DemoQuartzJob;
-import com.liyisoft.license.task.DisableCertToHistoryQuartzJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
